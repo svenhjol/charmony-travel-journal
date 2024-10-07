@@ -29,12 +29,39 @@ public class Bookmarks {
         this.session = session;
     }
 
+    public int size() {
+        return bookmarks.size();
+    }
+
+    public boolean isEmpty() {
+        return bookmarks.isEmpty();
+    }
+
+    public Optional<Bookmark> get(int index) {
+        return Optional.ofNullable(bookmarks.get(index));
+    }
+
+    /**
+     * Get a bookmark by its unique ID.
+     * @param id Unique ID of bookmark.
+     * @return A bookmark if exists.
+     */
+    public Optional<Bookmark> get(UUID id) {
+        return bookmarks.stream().filter(b -> b.id().equals(id)).findFirst();
+    }
+
     public Bookmarks add(Bookmark bookmark) {
         if (exists(bookmark.id())) {
-            remove(bookmark.id());
+            throw new RuntimeException("A bookmark with this id already exists: " + bookmark.id());
         }
         bookmarks.add(bookmark);
-        return this;
+        return save();
+    }
+
+    public Bookmarks update(Bookmark bookmark) {
+        var existing = get(bookmark.id()).orElseThrow();
+        bookmarks.set(bookmarks.indexOf(existing), bookmark);
+        return save();
     }
 
     public Bookmarks load() {
@@ -71,16 +98,15 @@ public class Bookmarks {
         return this;
     }
 
-    public Optional<Bookmark> bookmark(UUID id) {
-        return bookmarks.stream().filter(b -> b.id().equals(id)).findFirst();
-    }
-
     public boolean exists(UUID id) {
-        return bookmark(id).isPresent();
+        return get(id).isPresent();
     }
 
     public Bookmarks remove(UUID id) {
-        bookmark(id).ifPresent(bookmarks::remove);
-        return this;
+        get(id).ifPresent(bookmark -> {
+            Journal.feature().handlers.deletePhoto(bookmark);
+            bookmarks.remove(bookmark);
+        });
+        return save();
     }
 }

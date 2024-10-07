@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Photo {
+public class TakePhoto {
     private final Bookmark bookmark;
     private final Journal journal;
     private int ticks;
@@ -17,7 +17,7 @@ public class Photo {
     private boolean finished;
     private boolean isTakingPhoto;
 
-    public Photo(Bookmark bookmark) {
+    public TakePhoto(Bookmark bookmark) {
         this.bookmark = bookmark;
         this.journal = Journal.feature();
         this.valid = true;
@@ -164,5 +164,4 @@ public class Photo {
     private void showGui() {
         Minecraft.getInstance().options.hideGui = false;
     }
-
 }
