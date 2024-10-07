@@ -54,7 +54,7 @@ public class BookmarkScreen extends BaseScreen {
         
         addRenderableWidget(description);
 
-        top = 220;
+        top = 216;
         addRenderableWidget(new CoreButtons.DeleteButton((int) (midX - (CoreButtons.DeleteButton.WIDTH * 1.5)) - 5, top,
             b -> deleteAndClose()));
         addRenderableWidget(new CoreButtons.CancelButton(midX - (CoreButtons.CancelButton.WIDTH / 2), top,

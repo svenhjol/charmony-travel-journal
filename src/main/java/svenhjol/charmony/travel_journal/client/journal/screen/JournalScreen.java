@@ -32,8 +32,8 @@ public class JournalScreen extends BaseScreen {
         super.init();
 
         // Add footer buttons
-        addRenderableWidget(new CoreButtons.CloseButton(midX + 5, 220, b -> onClose()));
-        addRenderableWidget(new Buttons.NewBookmarkButton(midX - (Buttons.NewBookmarkButton.WIDTH + 5), 220,
+        addRenderableWidget(new CoreButtons.CloseButton(midX + 5, 216, b -> onClose()));
+        addRenderableWidget(new Buttons.NewBookmarkButton(midX - (Buttons.NewBookmarkButton.WIDTH + 5), 216,
             b -> journal.handlers.makeBookmark()));
 
         renderedButtons = false;
