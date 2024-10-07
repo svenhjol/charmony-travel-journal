@@ -1,16 +1,18 @@
 package svenhjol.charmony.travel_journal.client.journal;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.Level;
 import svenhjol.charmony.scaffold.base.Setup;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 public class Handlers extends Setup<Journal> {
@@ -19,16 +21,29 @@ public class Handlers extends Setup<Journal> {
 
     private File session;
     private Bookmarks bookmarks;
+    private Photo takingPhoto = null;
 
     public Handlers(Journal feature) {
         super(feature);
     }
 
-    public File session() {
-        if (session == null) {
-            throw new RuntimeException("Bookmarks have not been loaded or initialized");
+    public void clientTick(Minecraft minecraft) {
+        while (feature().registers.openJournalKey.consumeClick()) {
+            openJournal(minecraft);
         }
-        return session;
+        while (feature().registers.makeBookmarkKey.consumeClick()) {
+            makeBookmark(minecraft);
+        }
+        if (takingPhoto != null) {
+            if (takingPhoto.isFinished()) {
+                openBookmark(takingPhoto.bookmark());
+                takingPhoto = null;
+            } else if (!takingPhoto.isValid()) {
+                takingPhoto = null;
+            } else {
+                takingPhoto.tick();
+            }
+        }
     }
 
     public void entityLoad(Entity entity, ClientLevel clientLevel) {
@@ -66,33 +81,39 @@ public class Handlers extends Setup<Journal> {
         }
     }
 
+    public void hudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        if (takingPhoto != null && takingPhoto.isValid()) {
+            takingPhoto.renderCountdown(guiGraphics);
+        }
+    }
+
+    public File session() {
+        if (session == null) {
+            throw new RuntimeException("Bookmarks have not been loaded or initialized");
+        }
+        return session;
+    }
+
     public void openJournal(Minecraft minecraft) {
         feature().log().debug("openJournal");
     }
 
-    public void makeBookmark(Minecraft minecraft) {
-        // Just create a new temp bookmark for testing.
-        var uuid = UUID.randomUUID();
-        bookmarks.add(new Bookmark(
-            uuid,
-            "Test bookmark",
-            Level.OVERWORLD,
-            BlockPos.ZERO,
-            "A bookmark",
-            -1,
-            DyeColor.GRAY));
-
-        bookmarks.save();
-        feature().log().debug("Made bookmark with UUID " + uuid);
+    public void openBookmark(Bookmark bookmark) {
+        feature().log().debug("Opening bookmark " + bookmark.id());
     }
 
-    public void clientTick(Minecraft minecraft) {
-        while (feature().registers.openJournalKey.consumeClick()) {
-            openJournal(minecraft);
-        }
-        while (feature().registers.makeBookmarkKey.consumeClick()) {
-            makeBookmark(minecraft);
-        }
+    public void takePhoto(Bookmark bookmark) {
+        takingPhoto = new Photo(bookmark);
+        Minecraft.getInstance().setScreen(null);
+    }
+
+    public void makeBookmark(Minecraft minecraft) {
+        var bookmark = Bookmark.create(minecraft.player);
+        bookmarks.add(bookmark);
+        bookmarks.save();
+        feature().log().debug("Made bookmark with UUID " + bookmark.id());
+
+        takePhoto(bookmark);
     }
 
     private boolean checkAndCreateDirectories(String host) {
@@ -117,6 +138,42 @@ public class Handlers extends Setup<Journal> {
         }
 
         return true;
+    }
+
+    /**
+     * Gets or returns the custom photos directory.
+     * We don't want to store scaled photos directly inside minecraft's screenshots folder.
+     * Create a subdirectory to store all our custom things in.
+     */
+    public File getOrCreatePhotosDir() {
+        var minecraft = Minecraft.getInstance();
+        var defaultDir = new File(minecraft.gameDirectory, "screenshots");
+        var photosDir = new File(defaultDir, TRAVEL_JOURNAL_BASE);
+
+        if (!photosDir.exists() && !photosDir.mkdir()) {
+            throw new RuntimeException("Could not create custom photos directory in the screenshots folder, giving up");
+        }
+
+        return photosDir;
+    }
+
+    /**
+     * Moves a screenshot into the custom photos folder.
+     * Typically this is done after taking a screenshot Screenshot.grab().
+     */
+    public void moveScreenshotIntoPhotosDir(UUID bookmarkId) {
+        var minecraft = Minecraft.getInstance();
+        var defaultDir = new File(minecraft.gameDirectory, "screenshots");
+        var photosDir = getOrCreatePhotosDir();
+
+        var copyFrom = new File(defaultDir, bookmarkId + ".png");
+        var copyTo = new File(photosDir, bookmarkId + ".png");
+
+        try {
+            Files.move(copyFrom.toPath(), copyTo.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            log().error("Could not move screenshot into photos dir for bookmark " + bookmarkId + ": " + e.getMessage());
+        }
     }
 
     private File journalDir() {

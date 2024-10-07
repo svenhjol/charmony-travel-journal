@@ -1,4 +1,6 @@
 {
+  "gui.charmony-travel-journal.defaultName": "%s",
+  "gui.charmony-travel-journal.newBookmarkName": "New Bookmark",
   "key.charmony-travel-journal.openJournal": "Open Travel Journal",
   "key.charmony-travel-journal.makeBookmark": "Make Travel Bookmark",
   "subtitles.charmony-travel-journal.interact": "Travel Journal opens",

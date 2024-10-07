@@ -3,6 +3,7 @@ package svenhjol.charmony.travel_journal.client.journal;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -38,6 +39,7 @@ public class Registers extends Setup<Journal> {
         return () -> {
             ClientTickEvents.END_CLIENT_TICK.register(feature().handlers::clientTick);
             ClientEntityEvents.ENTITY_LOAD.register(feature().handlers::entityLoad);
+            HudRenderCallback.EVENT.register(feature().handlers::hudRender);
         };
     }
 }
