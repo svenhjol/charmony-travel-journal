@@ -126,7 +126,6 @@ public class Handlers extends Setup<Journal> {
         var minecraft = Minecraft.getInstance();
         var bookmark = Bookmark.create(minecraft.player);
         bookmarks.add(bookmark);
-        bookmarks.save();
         feature().log().debug("Made bookmark with UUID " + bookmark.id());
         takePhoto(bookmark);
     }
