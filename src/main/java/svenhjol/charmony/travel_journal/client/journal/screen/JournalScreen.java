@@ -66,6 +66,7 @@ public class JournalScreen extends BaseScreen {
             renderTitleDetails(guiGraphics, bookmark, x);
             renderPhoto(guiGraphics, bookmark, x);
             renderPhotoDescriptionHover(guiGraphics, bookmark, mouseX, mouseY, x);
+            renderDimension(guiGraphics, bookmark, x);
             renderPosition(guiGraphics, bookmark, x);
             renderDetailsButton(bookmark, x);
             
@@ -144,19 +145,32 @@ public class JournalScreen extends BaseScreen {
     
     private void renderPosition(GuiGraphics guiGraphics, Bookmark bookmark, int x) {
         var pose = guiGraphics.pose();
-        var top = 140;
-        var left = -82 + (x * 114);
+        var top = 174;
+        var left = -88 + (x * 138);
         var color = 0xb8907a;
         
         pose.pushPose();
         pose.translate(midX - 25f, 20f, 1.0f);
-        pose.scale(1.0f, 1.0f, 1.0f);
+        pose.scale(0.82f, 0.82f, 1.0f);
         
         var positionText = TextHelper.positionAsText(bookmark.pos());
-        var dimensionText = TextHelper.dimensionAsText(bookmark.dimension());
 
-        TextHelper.drawCenteredString(guiGraphics, font, dimensionText, left + 50, top, color, false);
         TextHelper.drawCenteredString(guiGraphics, font, positionText, left + 50, top + 12, color, false);
+        pose.popPose();
+    }
+
+    private void renderDimension(GuiGraphics guiGraphics, Bookmark bookmark, int x) {
+        var pose = guiGraphics.pose();
+        var top = 140;
+        var left = -82 + (x * 114);
+        var color = 0xb8907a;
+
+        pose.pushPose();
+        pose.translate(midX - 25f, 20f, 1.0f);
+        pose.scale(1.0f, 1.0f, 1.0f);
+
+        var dimensionText = TextHelper.dimensionAsText(bookmark.dimension());
+        TextHelper.drawCenteredString(guiGraphics, font, dimensionText, left + 50, top, color, false);
         pose.popPose();
     }
     

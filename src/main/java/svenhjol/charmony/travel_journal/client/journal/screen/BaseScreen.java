@@ -37,7 +37,7 @@ public abstract class BaseScreen extends Screen {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         super.render(guiGraphics, mouseX, mouseY, delta);
-        renderTitle(guiGraphics, midX, 24);
+        renderTitle(guiGraphics, midX + 2, 24);
     }
     
     @Override
