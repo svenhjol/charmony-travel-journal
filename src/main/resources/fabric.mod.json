@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "charmony-travel-journal",
+  "version": "${mod_version}",
+
+  "name": "Charmony Travel Journal",
+  "description": "A journal to record interesting places around the world.",
+  "authors": [
+    "svenhjol"
+  ],
+  "icon": "icon.png",
+  "license": "MIT",
+  "environment": "client",
+  "accessWidener": "charmony-travel-journal.accesswidener",
+
+  "entrypoints": {
+    "client": [
+      "svenhjol.charmony.travel_journal.fabric.ClientInitializer"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "*",
+    "java": ">=21",
+    "fabric-api": "*",
+    "charmony-nano": "${charmony_version}",
+    "charmony-api": "${api_version}"
+  },
+
+  "contact": {
+    "homepage": "https://charmony.work",
+    "sources": "https://github.com/svenhjol/${mod_id}"
+  }
+}
