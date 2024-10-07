@@ -4,17 +4,31 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.Level;
 import svenhjol.charmony.scaffold.base.Setup;
 
 import java.io.File;
+import java.util.UUID;
 
 public class Handlers extends Setup<Journal> {
     private static final String TRAVEL_JOURNAL_BASE = "charmony_travel_journal";
-    private static final String INTEGRATED_SERVER_BASE = "singpleplayer";
+    private static final String INTEGRATED_SERVER_BASE = "singleplayer";
+
+    private File session;
+    private Bookmarks bookmarks;
 
     public Handlers(Journal feature) {
         super(feature);
+    }
+
+    public File session() {
+        if (session == null) {
+            throw new RuntimeException("Bookmarks have not been loaded or initialized");
+        }
+        return session;
     }
 
     public void entityLoad(Entity entity, ClientLevel clientLevel) {
@@ -43,11 +57,12 @@ public class Handlers extends Setup<Journal> {
             return;
         }
 
-        var sessionFile = sessionFile(host, name);
-        if (sessionFile.exists()) {
-            Bookmarks.instance(sessionFile).load();
+        session = sessionFile(host, name);
+
+        if (session.exists()) {
+            bookmarks = Bookmarks.instance(session).load();
         } else {
-            Bookmarks.instance(sessionFile).save(); // Create empty bookmarks file.
+            bookmarks = Bookmarks.instance(session).save(); // Create empty bookmarks file.
         }
     }
 
@@ -56,7 +71,19 @@ public class Handlers extends Setup<Journal> {
     }
 
     public void makeBookmark(Minecraft minecraft) {
-        feature().log().debug("makeBookmark");
+        // Just create a new temp bookmark for testing.
+        var uuid = UUID.randomUUID();
+        bookmarks.add(new Bookmark(
+            uuid,
+            "Test bookmark",
+            Level.OVERWORLD,
+            BlockPos.ZERO,
+            "A bookmark",
+            -1,
+            DyeColor.GRAY));
+
+        bookmarks.save();
+        feature().log().debug("Made bookmark with UUID " + uuid);
     }
 
     public void clientTick(Minecraft minecraft) {
