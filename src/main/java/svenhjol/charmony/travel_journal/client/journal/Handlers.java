@@ -25,11 +25,14 @@ import java.util.UUID;
 import java.util.WeakHashMap;
 
 public class Handlers extends Setup<Journal> {
+    private static final String SEP = File.separator;
     private static final String CHARMONY_BASE = "charmony";
     private static final String TRAVEL_JOURNAL_BASE = "travel_journal";
     private static final String INTEGRATED_SERVER_BASE = "singleplayer";
 
     private final Map<UUID, ResourceLocation> cachedPhotos = new WeakHashMap<>();
+    private String host;
+    private UUID journalId;
     private Bookmarks bookmarks = null;
     private TakePhoto takePhoto = null;
 
@@ -61,26 +64,24 @@ public class Handlers extends Setup<Journal> {
         var minecraft = Minecraft.getInstance();
         var localServer = minecraft.getSingleplayerServer();
         var dedicatedServer = minecraft.getCurrentServer();
-        var journalId = uuidFromSeed(packet.commonPlayerSpawnInfo().seed());
 
-        String host;
-        String name = journalId.toString();
+        this.journalId = uuidFromSeed(packet.commonPlayerSpawnInfo().seed());
 
         if (localServer != null) {
-            host = INTEGRATED_SERVER_BASE;
+            this.host = INTEGRATED_SERVER_BASE;
         } else if (dedicatedServer != null) {
-            host = dedicatedServer.ip;
+            this.host = dedicatedServer.ip;
         } else {
             feature().log().error("Could not get server information");
             return;
         }
 
-        if (!checkAndCreateDirectories(host)) {
+        if (!checkAndCreateDirectories()) {
             feature().log().error("checkAndCreateDirectories failed, giving up");
             return;
         }
 
-        var session = sessionFile(host, name);
+        var session = sessionFile();
         if (session.exists()) {
             bookmarks = Bookmarks.instance(session).load();
         } else {
@@ -128,37 +129,22 @@ public class Handlers extends Setup<Journal> {
         takePhoto(bookmark);
     }
 
-    private boolean checkAndCreateDirectories(String host) {
-        // If the local travel journal directory doesn't exist, create it.
-        var journalDir = journalDir();
-        if (!journalDir.exists()) {
-            var result = journalDir.mkdirs();
+    private boolean checkAndCreateDirectories() {
+        boolean result = true;
+        result &= tryMakeDir(baseDir());
+        result &= tryMakeDir(sessionDir());
+        result &= tryMakeDir(photosDir());
+        return result;
+    }
+
+    private boolean tryMakeDir(File dir) {
+        if (!dir.exists()) {
+            var result = dir.mkdirs();
             if (!result) {
-                feature().log().warn("Could not create journal directory");
+                feature().log().warn("Could not create " + dir);
                 return false;
             }
         }
-
-        // Make a session directory for this ip/host.
-        var sessionDir = sessionDir(host);
-        if (!sessionDir.exists()) {
-            var result = sessionDir.mkdirs();
-            if (!result) {
-                feature().log().warn("Could not create journal session directory");
-                return false;
-            }
-        }
-
-        // Make a photos directory in screenshots.
-        var photosDir = photosDir();
-        if (!photosDir.exists()) {
-            var result = photosDir.mkdirs();
-            if (!result) {
-                feature().log().warn("Could not create journal photos directory");
-                return false;
-            }
-        }
-
         return true;
     }
 
@@ -169,10 +155,9 @@ public class Handlers extends Setup<Journal> {
     public void moveScreenshotIntoPhotosDir(UUID bookmarkId) {
         var minecraft = Minecraft.getInstance();
         var screenshotsDir = new File(minecraft.gameDirectory, "screenshots");
-        var photosDir = photosDir();
 
         var copyFrom = new File(screenshotsDir, bookmarkId + ".png");
-        var copyTo = new File(photosDir, bookmarkId + ".png");
+        var copyTo = new File(photosDir(), bookmarkId + ".png");
 
         try {
             Files.move(copyFrom.toPath(), copyTo.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -240,23 +225,26 @@ public class Handlers extends Setup<Journal> {
         }
     }
 
-    public File journalDir() {
+    public File baseDir() {
         var gameDir = FabricLoader.getInstance().getGameDir().toFile();
-        return new File( gameDir + File.separator + CHARMONY_BASE + File.separator + TRAVEL_JOURNAL_BASE);
+        return new File( gameDir + SEP + CHARMONY_BASE + SEP + TRAVEL_JOURNAL_BASE);
+    }
+
+    public File sessionDir() {
+        return new File(baseDir() + SEP + host + SEP + journalId);
+    }
+
+    public File sessionFile() {
+        return new File(sessionDir() + SEP + "journal.json");
     }
 
     public File photosDir() {
+        return new File(sessionDir() + SEP + "photos");
+    }
+
+    public File screenshotsDir() {
         var minecraft = Minecraft.getInstance();
-        var screenshotsDir = new File(minecraft.gameDirectory, "screenshots");
-        return new File(screenshotsDir + File.separator + CHARMONY_BASE + File.separator + TRAVEL_JOURNAL_BASE);
-    }
-
-    public File sessionDir(String host) {
-        return new File(journalDir() + File.separator + host);
-    }
-
-    public File sessionFile(String host, String name) {
-        return new File(sessionDir(host) + File.separator + name + ".json");
+        return new File(minecraft.gameDirectory, "screenshots");
     }
 
     /**
