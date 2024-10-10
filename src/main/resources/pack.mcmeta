@@ -1,0 +1,6 @@
+{
+  "pack": {
+    "description": "Charmony Travel Journal resources",
+    "pack_format": ${pack_version}
+  }
+}
