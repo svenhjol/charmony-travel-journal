@@ -116,7 +116,7 @@ public class TakePhoto {
 
         // Downscale the screenshot.
         BufferedImage image;
-        var dir = journal.handlers.getOrCreatePhotosDir();
+        var dir = journal.handlers.photosDir();
         var path = new File(dir, id + ".png");
         try {
             image = ImageIO.read(path);

@@ -26,10 +26,6 @@ public record Bookmark(
         );
     }
 
-    public void save() {
-        Journal.feature().handlers.bookmarks();
-    }
-
     public static class Mutable {
         public final UUID id;
         public final ResourceKey<Level> dimension;

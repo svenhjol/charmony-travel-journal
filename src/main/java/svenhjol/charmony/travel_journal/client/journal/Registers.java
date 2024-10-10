@@ -1,6 +1,5 @@
 package svenhjol.charmony.travel_journal.client.journal;
 
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -9,6 +8,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import org.lwjgl.glfw.GLFW;
 import svenhjol.charmony.scaffold.base.Setup;
+import svenhjol.charmony.scaffold.events.ClientLoginPlayerCallback;
+import svenhjol.charmony.scaffold.events.ClientRespawnPlayerCallback;
 import svenhjol.charmony.travel_journal.TravelJournal;
 
 public class Registers extends Setup<Journal> {
@@ -37,8 +38,8 @@ public class Registers extends Setup<Journal> {
     @Override
     public Runnable boot() {
         return () -> {
+            ClientLoginPlayerCallback.EVENT.register(feature().handlers::clientLogin);
             ClientTickEvents.END_CLIENT_TICK.register(feature().handlers::clientTick);
-            ClientEntityEvents.ENTITY_LOAD.register(feature().handlers::entityLoad);
             HudRenderCallback.EVENT.register(feature().handlers::hudRender);
         };
     }
