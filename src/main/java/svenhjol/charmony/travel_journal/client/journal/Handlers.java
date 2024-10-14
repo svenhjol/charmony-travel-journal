@@ -28,10 +28,8 @@ public class Handlers extends Setup<Journal> {
     private static final String SEP = File.separator;
     private static final String CHARMONY_BASE = "charmony";
     private static final String TRAVEL_JOURNAL_BASE = "travel_journal";
-    private static final String INTEGRATED_SERVER_BASE = "singleplayer";
 
     private final Map<UUID, ResourceLocation> cachedPhotos = new WeakHashMap<>();
-    private String host;
     private UUID journalId;
     private Bookmarks bookmarks = null;
     private TakePhoto takePhoto = null;
@@ -53,6 +51,7 @@ public class Handlers extends Setup<Journal> {
                 openBookmark(takePhoto.bookmark());
                 takePhoto = null;
             } else if (!takePhoto.isValid()) {
+                openBookmark(takePhoto.bookmark());
                 takePhoto = null;
             } else {
                 takePhoto.tick();
@@ -61,20 +60,7 @@ public class Handlers extends Setup<Journal> {
     }
 
     public void clientLogin(ClientboundLoginPacket packet) {
-        var minecraft = Minecraft.getInstance();
-        var localServer = minecraft.getSingleplayerServer();
-        var dedicatedServer = minecraft.getCurrentServer();
-
         this.journalId = uuidFromSeed(packet.commonPlayerSpawnInfo().seed());
-
-        if (localServer != null) {
-            this.host = INTEGRATED_SERVER_BASE;
-        } else if (dedicatedServer != null) {
-            this.host = dedicatedServer.ip;
-        } else {
-            feature().log().error("Could not get server information");
-            return;
-        }
 
         if (!checkAndCreateDirectories()) {
             feature().log().error("checkAndCreateDirectories failed, giving up");
@@ -231,7 +217,7 @@ public class Handlers extends Setup<Journal> {
     }
 
     public File sessionDir() {
-        return new File(baseDir() + SEP + host + SEP + journalId);
+        return new File(baseDir() + SEP + journalId);
     }
 
     public File sessionFile() {
