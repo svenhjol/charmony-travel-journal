@@ -3,7 +3,7 @@ package svenhjol.charmony.travel_journal.client.journal;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import svenhjol.charmony.scaffold.base.Log;
+import svenhjol.charmony.core.base.Log;
 import svenhjol.charmony.travel_journal.TravelJournal;
 
 import java.io.File;

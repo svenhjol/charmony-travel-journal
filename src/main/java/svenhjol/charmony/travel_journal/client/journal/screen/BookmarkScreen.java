@@ -7,7 +7,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.MultiLineEditBox;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
-import svenhjol.charmony.scaffold.client.CoreButtons;
+import svenhjol.charmony.core.client.CoreButtons;
 import svenhjol.charmony.travel_journal.client.journal.Bookmark;
 import svenhjol.charmony.travel_journal.client.journal.Resources;
 import svenhjol.charmony.travel_journal.helpers.TextHelper;

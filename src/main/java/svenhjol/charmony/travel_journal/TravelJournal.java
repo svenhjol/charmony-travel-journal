@@ -1,7 +1,13 @@
 package svenhjol.charmony.travel_journal;
 
-import svenhjol.charmony.scaffold.base.Mod;
+import net.minecraft.resources.ResourceLocation;
+import svenhjol.charmony.core.annotations.ModDefinition;
+import svenhjol.charmony.core.base.Mod;
+import svenhjol.charmony.core.enums.Side;
 
+@ModDefinition(id = TravelJournal.ID, sides = {Side.Client},
+    name = "Travel journal",
+    description = "A journal to record interesting places around the world. Compatible with vanilla servers such as Realms.")
 public class TravelJournal extends Mod {
     public static final String ID = "charmony-travel-journal";
     private static TravelJournal instance;
@@ -13,8 +19,7 @@ public class TravelJournal extends Mod {
         return instance;
     }
 
-    @Override
-    public String id() {
-        return ID;
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(ID, path);
     }
 }

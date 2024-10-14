@@ -15,7 +15,7 @@
 
   "entrypoints": {
     "client": [
-      "svenhjol.charmony.travel_journal.fabric.ClientInitializer"
+      "svenhjol.charmony.travel_journal.client.ClientInitializer"
     ]
   },
 

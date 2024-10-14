@@ -8,7 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import net.minecraft.resources.ResourceLocation;
-import svenhjol.charmony.scaffold.base.Setup;
+import svenhjol.charmony.core.base.Setup;
 import svenhjol.charmony.travel_journal.client.journal.screen.BookmarkScreen;
 import svenhjol.charmony.travel_journal.client.journal.screen.JournalScreen;
 

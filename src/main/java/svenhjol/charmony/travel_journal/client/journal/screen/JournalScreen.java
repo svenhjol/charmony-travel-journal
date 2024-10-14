@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
-import svenhjol.charmony.scaffold.client.CoreButtons;
+import svenhjol.charmony.core.client.CoreButtons;
 import svenhjol.charmony.travel_journal.client.journal.Bookmark;
 import svenhjol.charmony.travel_journal.client.journal.Buttons;
 import svenhjol.charmony.travel_journal.client.journal.Resources;

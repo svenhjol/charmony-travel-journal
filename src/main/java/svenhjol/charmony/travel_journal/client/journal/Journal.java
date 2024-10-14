@@ -1,24 +1,25 @@
 package svenhjol.charmony.travel_journal.client.journal;
 
 import net.minecraft.util.Mth;
-import svenhjol.charmony.scaffold.annotations.Configurable;
-import svenhjol.charmony.scaffold.annotations.Feature;
-import svenhjol.charmony.scaffold.base.Mod;
-import svenhjol.charmony.scaffold.base.ModFeature;
-import svenhjol.charmony.scaffold.enums.Side;
+import svenhjol.charmony.core.annotations.Configurable;
+import svenhjol.charmony.core.annotations.FeatureDefinition;
+import svenhjol.charmony.core.base.Mod;
+import svenhjol.charmony.core.base.SidedFeature;
+import svenhjol.charmony.core.enums.Side;
 import svenhjol.charmony.travel_journal.TravelJournal;
 
-@Feature(side = Side.Client, canBeDisabled = false)
-public class Journal extends ModFeature {
+@FeatureDefinition(side = Side.Client, canBeDisabled = false, description = """
+    A journal that holds bookmarks to places of interest.""")
+public class Journal extends SidedFeature {
     public final Registers registers;
     public final Handlers handlers;
 
     @Configurable(
         name = "Scaled photo width",
         description = """
-            Width (in pixels) that photos will be scaled down to before being uploaded to the server.
-            This affects the storage size of the world data and network packet size when a client wants
-            to download a copy of the photo. Smaller sizes optimize space and speed but reduce quality.
+            Width (in pixels) to which photos will be scaled down.
+            This affects the storage size of the journal data.
+            Smaller sizes optimize space and speed but reduce quality.
             The scaled width should be double the scaled height."""
     )
     private static int scaledPhotoWidth = 192;
@@ -26,9 +27,9 @@ public class Journal extends ModFeature {
     @Configurable(
         name = "Scaled photo height",
         description = """
-            Height (in pixels) that photos will be scaled down to before being uploaded to the server.
-            This affects the storage size of the world data and network packet size when a client wants
-            to download a copy of the photo. Smaller sizes optimize space and speed but reduce quality.
+            Height (in pixels) to which photos will be scaled down.
+            This affects the storage size of the journal data.
+            Smaller sizes optimize space and speed but reduce quality.
             The scaled height should be half the scaled width."""
     )
     private static int scaledPhotoHeight = 96;

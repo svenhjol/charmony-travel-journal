@@ -7,9 +7,9 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import org.lwjgl.glfw.GLFW;
-import svenhjol.charmony.scaffold.base.Setup;
-import svenhjol.charmony.scaffold.events.ClientLoginPlayerCallback;
-import svenhjol.charmony.scaffold.events.ClientRespawnPlayerCallback;
+import svenhjol.charmony.core.base.Setup;
+import svenhjol.charmony.core.events.ClientLoginPlayerCallback;
+import svenhjol.charmony.core.events.ClientRespawnPlayerCallback;
 import svenhjol.charmony.travel_journal.TravelJournal;
 
 public class Registers extends Setup<Journal> {
