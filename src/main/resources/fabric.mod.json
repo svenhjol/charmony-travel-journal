@@ -8,7 +8,7 @@
   "authors": [
     "svenhjol"
   ],
-  "icon": "icon.png",
+  "icon": "assets/charmony-travel-journal/textures/gui/sprites/icon.png",
   "license": "MIT",
   "environment": "client",
   "accessWidener": "charmony-travel-journal.accesswidener",
