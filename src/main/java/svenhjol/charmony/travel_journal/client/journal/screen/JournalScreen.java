@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import svenhjol.charmony.core.client.CoreButtons;
 import svenhjol.charmony.travel_journal.client.journal.Bookmark;
 import svenhjol.charmony.travel_journal.client.journal.Buttons;
+import svenhjol.charmony.travel_journal.client.journal.Journal;
 import svenhjol.charmony.travel_journal.client.journal.Resources;
 import svenhjol.charmony.travel_journal.helpers.TextHelper;
 
@@ -25,6 +26,9 @@ public class JournalScreen extends BaseScreen {
         super(Resources.TRAVEL_JOURNAL);
         this.page = page;
         this.columns = 2;
+
+        // Keep track of the last page we looked at.
+        Journal.feature().handlers.setLastViewedPage(page);
     }
 
     @Override

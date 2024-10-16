@@ -30,6 +30,7 @@ public class Handlers extends Setup<Journal> {
     private static final String TRAVEL_JOURNAL_BASE = "travel_journal";
 
     private final Map<UUID, ResourceLocation> cachedPhotos = new WeakHashMap<>();
+    private int lastViewedPage = 1;
     private UUID journalId;
     private Bookmarks bookmarks = null;
     private TakePhoto takePhoto = null;
@@ -40,7 +41,7 @@ public class Handlers extends Setup<Journal> {
 
     public void clientTick(Minecraft minecraft) {
         while (feature().registers.openJournalKey.consumeClick()) {
-            openJournal();
+            openJournal(lastViewedPage);
         }
         while (feature().registers.makeBookmarkKey.consumeClick()) {
             makeBookmark();
@@ -89,7 +90,7 @@ public class Handlers extends Setup<Journal> {
     }
 
     public void openJournal() {
-        openJournal(1);
+        openJournal(lastViewedPage);
     }
 
     public void openJournal(int page) {
@@ -100,6 +101,10 @@ public class Handlers extends Setup<Journal> {
     public void openBookmark(Bookmark bookmark) {
         var minecraft = Minecraft.getInstance();
         minecraft.setScreen(new BookmarkScreen(bookmark));
+    }
+
+    public void setLastViewedPage(int page) {
+        this.lastViewedPage = page;
     }
 
     public void takePhoto(Bookmark bookmark) {
