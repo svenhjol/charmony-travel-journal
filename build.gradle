@@ -3,4 +3,4 @@ plugins {
     id 'maven-publish'
 }
 
-apply from: "https://charmony.work/1.22/build.mod.gradle"
+apply from: "https://charmony.work/1.22/build.gradle"

@@ -7,8 +7,8 @@ import svenhjol.charmony.travel_journal.TravelJournal;
 
 public final class Resources {
     public static final Pair<Integer, Integer> BACKGROUND_DIMENSIONS = Pair.of(256, 208);
-    public static final ResourceLocation BACKGROUND = TravelJournal.instance().id("textures/gui/travel_journal.png");
-    public static final ResourceLocation PHOTO_BACKGROUND = TravelJournal.instance().id("textures/gui/photo_background.png");
+    public static final ResourceLocation BACKGROUND = TravelJournal.id("textures/gui/travel_journal.png");
+    public static final ResourceLocation PHOTO_BACKGROUND = TravelJournal.id("textures/gui/photo_background.png");
     public static final Component DESCRIPTION = Component.translatable("gui.charmony-travel-journal.description");
     public static final Component DETAILS = Component.translatable("gui.charmony-travel-journal.details");
     public static final Component EDIT_DESCRIPTION = Component.translatable("gui.charmony-travel-journal.editDescription");

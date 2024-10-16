@@ -4,7 +4,7 @@
   "version": "${mod_version}",
 
   "name": "Charmony Travel Journal",
-  "description": "A journal to record interesting places around the world.",
+  "description": "A journal to record interesting places around the world. Compatible with vanilla servers such as Realms.",
   "authors": [
     "svenhjol"
   ],
