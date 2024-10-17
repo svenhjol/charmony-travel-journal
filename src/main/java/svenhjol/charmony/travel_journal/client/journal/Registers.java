@@ -9,7 +9,6 @@ import net.minecraft.sounds.SoundEvent;
 import org.lwjgl.glfw.GLFW;
 import svenhjol.charmony.core.base.Setup;
 import svenhjol.charmony.core.events.ClientLoginPlayerCallback;
-import svenhjol.charmony.core.events.ClientRespawnPlayerCallback;
 import svenhjol.charmony.travel_journal.TravelJournal;
 
 public class Registers extends Setup<Journal> {
