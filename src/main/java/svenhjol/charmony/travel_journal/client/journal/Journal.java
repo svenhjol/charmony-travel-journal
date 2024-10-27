@@ -25,7 +25,8 @@ public final class Journal extends SidedFeature {
             as well as the size of the network data if you send a bookmark
             to another player. Smaller sizes optimize space and speed but
             reduce image quality.
-            The scaled width should be double the scaled height."""
+            The scaled width should be double the scaled height.""",
+        requireRestart = false
     )
     private static int scaledPhotoWidth = 192;
 
@@ -37,14 +38,16 @@ public final class Journal extends SidedFeature {
             as well as the size of the network data if you send a bookmark
             to another player. Smaller sizes optimize space and speed but
             reduce image quality.
-            The scaled height should be half the scaled width."""
+            The scaled height should be half the scaled width.""",
+        requireRestart = false
     )
     private static int scaledPhotoHeight = 96;
 
     @Configurable(
         name = "Allow receiving bookmarks",
         description = """
-            If true, other players can send a bookmark to you when nearby."""
+            If true, other players can send a bookmark to you when nearby.""",
+        requireRestart = false
     )
     private static boolean allowReceivingBookmarks = true;
 
@@ -54,7 +57,8 @@ public final class Journal extends SidedFeature {
             A list of player names who are allowed to send you bookmarks when nearby.
             Leave empty to allow any player to send you bookmarks.
             If 'Allow receiving bookmarks' is disabled then not even the
-            players in this list will be able to send a bookmark to you."""
+            players in this list will be able to send a bookmark to you.""",
+        requireRestart = false
     )
     private static List<String> allowReceivingFrom = new ArrayList<>();
 
