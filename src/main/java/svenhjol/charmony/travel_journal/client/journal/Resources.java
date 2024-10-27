@@ -15,7 +15,9 @@ public final class Resources {
     public static final Component EDIT_NAME = Component.translatable("gui.charmony-travel-journal.editName");
     public static final Component NAME_TEXT = Component.translatable("gui.charmony-travel-journal.name");
     public static final Component NEW_BOOKMARK = Component.translatable("gui.charmony-travel-journal.newBookmark");
+    public static final Component SEND_TO_PLAYER = Component.translatable("gui.charmony-travel-journal.sendToPlayer");
     public static final Component TRAVEL_JOURNAL = Component.translatable("gui.charmony-travel-journal.travelJournal");
+    public static final String AUTHOR = "gui.charmony-travel-journal.author";
     public static final String DIMENSION = "gui.charmony-travel-journal.dimension";
     public static final String POSITION = "gui.charmony-travel-journal.position";
     public static final String XYZ_KEY = "gui.charmony-travel-journal.xyz";

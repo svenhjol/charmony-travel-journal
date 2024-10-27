@@ -1,28 +1,37 @@
 package svenhjol.charmony.travel_journal.client.journal;
 
 import com.mojang.blaze3d.platform.NativeImage;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.AABB;
+import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.base.Setup;
 import svenhjol.charmony.travel_journal.client.journal.screen.BookmarkScreen;
 import svenhjol.charmony.travel_journal.client.journal.screen.JournalScreen;
+import svenhjol.charmony.travel_journal.client.journal.screen.SendBookmarkScreen;
+import svenhjol.charmony.travel_journal.common.journal.Bookmark;
+import svenhjol.charmony.travel_journal.common.journal.Bookmarks;
+import svenhjol.charmony.travel_journal.common.journal.Networking;
+import svenhjol.charmony.travel_journal.common.journal.Networking.S2CSendBookmarkToPlayer;
 
 import javax.annotation.Nullable;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
-import java.util.WeakHashMap;
+import java.util.*;
 
 public class Handlers extends Setup<Journal> {
     private static final String SEP = File.separator;
@@ -31,6 +40,8 @@ public class Handlers extends Setup<Journal> {
 
     private final Map<UUID, ResourceLocation> cachedPhotos = new WeakHashMap<>();
     private int lastViewedPage = 1;
+    private long lastSentBookmarkTime = 0;
+    private boolean sentPlayerSettings = false;
     private UUID journalId;
     private Bookmarks bookmarks = null;
     private TakePhoto takePhoto = null;
@@ -40,6 +51,12 @@ public class Handlers extends Setup<Journal> {
     }
 
     public void clientTick(Minecraft minecraft) {
+        // We only tick when in game.
+        if (minecraft.player == null) {
+            return;
+        }
+
+        // Listen to key bindings.
         while (feature().registers.openJournalKey.consumeClick()) {
             openJournal(lastViewedPage);
         }
@@ -47,6 +64,13 @@ public class Handlers extends Setup<Journal> {
             makeBookmark();
         }
 
+        // Update the server once with client settings.
+        if (!sentPlayerSettings) {
+            Networking.C2SPlayerSettings.send(feature().canReceiveBookmarks(), feature().canReceiveFrom());
+            sentPlayerSettings = true;
+        }
+
+        // Tick the photo being taken.
         if (takePhoto != null) {
             if (takePhoto.isFinished()) {
                 openBookmark(takePhoto.bookmark());
@@ -60,6 +84,10 @@ public class Handlers extends Setup<Journal> {
         }
     }
 
+    /**
+     * Use to set the initial state of the client.
+     * Don't send network packets here because they don't work.
+     */
     public void clientLogin(ClientboundLoginPacket packet) {
         this.journalId = uuidFromSeed(packet.commonPlayerSpawnInfo().seed());
 
@@ -74,6 +102,8 @@ public class Handlers extends Setup<Journal> {
         } else {
             bookmarks = Bookmarks.instance(session).save(); // Create empty bookmarks file.
         }
+
+        sentPlayerSettings = false;
     }
 
     public void hudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
@@ -103,8 +133,41 @@ public class Handlers extends Setup<Journal> {
         minecraft.setScreen(new BookmarkScreen(bookmark));
     }
 
+    public void openSendBookmark(Bookmark bookmark) {
+        var minecraft = Minecraft.getInstance();
+        minecraft.setScreen(new SendBookmarkScreen(bookmark));
+    }
+
     public void setLastViewedPage(int page) {
         this.lastViewedPage = page;
+    }
+
+    /**
+     * Handle incoming bookmark from the server.
+     */
+    public void handleSendBookmarkToPlayerPacket(S2CSendBookmarkToPlayer packet, ClientPlayNetworking.Context context) {
+        context.client().execute(() -> {
+            Component message;
+            var player = context.player();
+            var bookmark = packet.bookmark();
+            var sender = packet.sender();
+            var debug = Environment.isDebugMode();
+
+            if (!bookmarks.exists(bookmark.id()) || debug) {
+                if (debug) {
+                    // bookmarks.add() doesn't allow duplicates so we delete it first
+                    bookmarks.remove(bookmark.id());
+                }
+
+                message = Component.translatable("gui.charmony-travel-journal.receiveFromPlayer", sender, bookmark.name());
+                bookmarks.add(bookmark);
+                savePhoto(bookmark, packet.photo());
+            } else {
+                message = Component.translatable("gui.charmony-travel-journal.alreadyHaveTheBookmark", sender, bookmark.name());
+            }
+
+            player.displayClientMessage(message, false);
+        });
     }
 
     public void takePhoto(Bookmark bookmark) {
@@ -118,6 +181,42 @@ public class Handlers extends Setup<Journal> {
         bookmarks.add(bookmark);
         feature().log().debug("Made bookmark with UUID " + bookmark.id());
         takePhoto(bookmark);
+    }
+
+    public boolean canSendBookmark() {
+        var minecraft = Minecraft.getInstance();
+        var level = minecraft.level;
+        if (level == null) return false;
+
+        return Environment.usesCharmonyServer()
+            && level.getGameTime() > lastSentBookmarkTime + 40
+            && !nearbyPlayers().isEmpty();
+    }
+
+    public boolean belongsToPlayer(Bookmark bookmark) {
+        var minecraft = Minecraft.getInstance();
+        var player = minecraft.player;
+        if (player == null) return false;
+
+        return player.getScoreboardName().equals(bookmark.author());
+    }
+
+    public List<LocalPlayer> nearbyPlayers() {
+        return nearbyPlayers(Environment.isDebugMode());
+    }
+
+    public List<LocalPlayer> nearbyPlayers(boolean includeCurrentPlayer) {
+        var minecraft = Minecraft.getInstance();
+        var level = minecraft.level;
+        var player = minecraft.player;
+        if (level == null || player == null) return List.of();
+
+        var nearbyPlayers = level.getEntitiesOfClass(LocalPlayer.class, (new AABB(player.blockPosition())).inflate(5.0d));
+        if (includeCurrentPlayer) {
+            return nearbyPlayers;
+        }
+
+        return nearbyPlayers.stream().filter(p -> !p.getUUID().equals(player.getUUID())).toList();
     }
 
     private boolean checkAndCreateDirectories() {
@@ -155,6 +254,30 @@ public class Handlers extends Setup<Journal> {
         } catch (IOException e) {
             log().error("Could not move screenshot into photos dir for bookmark " + bookmarkId + ": " + e.getMessage());
         }
+    }
+
+    /**
+     * Try and send a bookmark to a nearby player.
+     */
+    public void trySendBookmark(Bookmark bookmark, LocalPlayer player) {
+        if (!Environment.usesCharmonyServer()) return;
+
+        var minecraft = Minecraft.getInstance();
+        var level = minecraft.level;
+        if (level == null) return;
+
+        var path = new File(photosDir(), bookmark.id() + ".png");
+        BufferedImage image;
+
+        try {
+            image = ImageIO.read(path);
+        } catch (Exception e) {
+            log().error("Could not load photo for bookmark " + bookmark.id());
+            return;
+        }
+
+        lastSentBookmarkTime = level.getGameTime();
+        Networking.C2SSendBookmarkToPlayer.send(bookmark, image, player.getUUID());
     }
 
     /**
@@ -207,6 +330,19 @@ public class Handlers extends Setup<Journal> {
         return fallback;
     }
 
+    public boolean savePhoto(Bookmark bookmark, BufferedImage photo) {
+        boolean success;
+        var path = new File(photosDir(), bookmark.id() + ".png");
+
+        try {
+            success = ImageIO.write(photo, "png", path);
+        } catch (Exception e) {
+            success = false;
+        }
+
+        return success;
+    }
+
     public void deletePhoto(Bookmark bookmark) {
         var file = new File(photosDir(), bookmark.id() + ".png");
         if (file.exists()) {
@@ -231,11 +367,6 @@ public class Handlers extends Setup<Journal> {
 
     public File photosDir() {
         return new File(sessionDir() + SEP + "photos");
-    }
-
-    public File screenshotsDir() {
-        var minecraft = Minecraft.getInstance();
-        return new File(minecraft.gameDirectory, "screenshots");
     }
 
     /**

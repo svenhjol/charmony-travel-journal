@@ -6,14 +6,14 @@ import net.minecraft.world.entity.player.Player;
 
 public final class BiomeHelper {
     /**
-     * Gets the nice name of the biome that the player is in.
+     * Gets the nice name of the biome that the recipient is in.
      */
     public static String biomeName(Player player) {
         return Component.translatable(biomeLocaleKey(player)).getString();
     }
 
     /**
-     * Get a locale key for the biome at the player's current position.
+     * Get a locale key for the biome at the recipient's current position.
      */
     public static String biomeLocaleKey(Player player) {
         var registry = player.level().registryAccess();
@@ -21,7 +21,7 @@ public final class BiomeHelper {
         var key = registry.lookupOrThrow(Registries.BIOME).getKey(biome.value());
 
         if (key == null) {
-            throw new RuntimeException("Cannot get player biome");
+            throw new RuntimeException("Cannot get recipient biome");
         }
 
         var namespace = key.getNamespace();

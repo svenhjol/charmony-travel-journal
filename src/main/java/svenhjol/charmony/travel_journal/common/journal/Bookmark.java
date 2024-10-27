@@ -1,5 +1,6 @@
-package svenhjol.charmony.travel_journal.client.journal;
+package svenhjol.charmony.travel_journal.common.journal;
 
+import com.google.gson.GsonBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 public record Bookmark(
     UUID id, String name, ResourceKey<Level> dimension, BlockPos pos,
-    String description, long timestamp, DyeColor color) {
+    String author, String description, long timestamp, DyeColor color) {
     public static final DyeColor DEFAULT_COLOR = DyeColor.GRAY;
 
     public static Bookmark create(Player player) {
@@ -20,10 +21,15 @@ public record Bookmark(
             BiomeHelper.biomeName(player),
             player.level().dimension(),
             player.blockPosition(),
+            player.getScoreboardName(),
             "",
             System.currentTimeMillis() / 1000L,
             DEFAULT_COLOR
         );
+    }
+
+    public String toJsonString() {
+        return new GsonBuilder().setPrettyPrinting().create().toJson(this);
     }
 
     public static class Mutable {
@@ -33,6 +39,7 @@ public record Bookmark(
         public final long timestamp;
         public String name;
         public String description;
+        public String author;
         public DyeColor color;
 
         public Mutable(Bookmark bookmark) {
@@ -42,11 +49,12 @@ public record Bookmark(
             this.timestamp = bookmark.timestamp();
             this.name = bookmark.name();
             this.description = bookmark.description();
+            this.author = bookmark.author();
             this.color = bookmark.color();
         }
 
         public Bookmark toImmutable() {
-            return new Bookmark(id, name, dimension, pos, description, timestamp, color);
+            return new Bookmark(id, name, dimension, pos, author, description, timestamp, color);
         }
     }
 }

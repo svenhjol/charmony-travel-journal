@@ -2,20 +2,25 @@ package svenhjol.charmony.travel_journal.client.journal.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.MultiLineEditBox;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
+import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.CoreButtons;
-import svenhjol.charmony.travel_journal.client.journal.Bookmark;
+import svenhjol.charmony.travel_journal.client.journal.Buttons;
 import svenhjol.charmony.travel_journal.client.journal.Resources;
+import svenhjol.charmony.travel_journal.common.journal.Bookmark;
 import svenhjol.charmony.travel_journal.helpers.TextHelper;
 
 public class BookmarkScreen extends BaseScreen {
     private final Bookmark.Mutable bookmark;
     private EditBox name;
     private MultiLineEditBox description;
+    private Button sendToPlayerButton;
     
     public BookmarkScreen(Bookmark bookmark) {
         super(Component.literal(bookmark.name()));
@@ -40,7 +45,6 @@ public class BookmarkScreen extends BaseScreen {
         name.setBordered(true);
         name.setMaxLength(32);
         name.setEditable(true);
-
         addRenderableWidget(name);
         setFocused(name);
         
@@ -51,15 +55,20 @@ public class BookmarkScreen extends BaseScreen {
         description.setValue(bookmark.description);
         description.setValueListener(val -> bookmark.description = val);
         description.setCharacterLimit(140);
-        
         addRenderableWidget(description);
 
-        top = 216;
-        addRenderableWidget(new CoreButtons.DeleteButton((int) (midX - (CoreButtons.DeleteButton.WIDTH * 1.5)) - 5, top,
+        sendToPlayerButton = new Buttons.SendToPlayerButton(midX + 130, 18,
+            b -> sendToNearbyPlayer());
+        sendToPlayerButton.active = false;
+        sendToPlayerButton.visible = Environment.usesCharmonyServer();
+        addRenderableWidget(sendToPlayerButton);
+
+        // Buttons at bottom
+        addRenderableWidget(new CoreButtons.DeleteButton((int) (midX - (CoreButtons.DeleteButton.WIDTH * 1.5)) - 5, 216,
             b -> deleteAndClose()));
-        addRenderableWidget(new CoreButtons.CancelButton(midX - (CoreButtons.CancelButton.WIDTH / 2), top,
+        addRenderableWidget(new CoreButtons.CancelButton(midX - (CoreButtons.CancelButton.WIDTH / 2), 216,
             b -> onClose()));
-        addRenderableWidget(new CoreButtons.SaveButton(midX + (CoreButtons.SaveButton.WIDTH / 2) + 5, top,
+        addRenderableWidget(new CoreButtons.SaveButton(midX + (CoreButtons.SaveButton.WIDTH / 2) + 5, 216,
             b -> saveAndClose()));
     }
 
@@ -73,7 +82,8 @@ public class BookmarkScreen extends BaseScreen {
         super.render(guiGraphics, mouseX, mouseY, delta);
 
         renderPhoto(guiGraphics);
-        renderDimensionAndPosition(guiGraphics);
+        renderDetails(guiGraphics);
+        renderUtilityButtons(guiGraphics, mouseX, mouseY, delta);
         
         name.render(guiGraphics, mouseX, mouseY, delta);
         description.render(guiGraphics, mouseX, mouseY, delta);
@@ -99,25 +109,43 @@ public class BookmarkScreen extends BaseScreen {
         }
     }
     
-    private void renderDimensionAndPosition(GuiGraphics guiGraphics) {
+    private void renderDetails(GuiGraphics guiGraphics) {
         var pose = guiGraphics.pose();
-        var color = 0xb8907a;
+        var color = getDetailsColor(bookmark.toImmutable());
         
         pose.pushPose();
-        var top = 30; // This is scaled by pose.scale()
+        var top = 23; // This is scaled by pose.scale()
         var left = 43; // This is scaled by pose.scale()
         pose.translate(midX - 25f, 20f, 1.0f);
         pose.scale(0.82f, 0.82f, 1.0f);
 
-        var positionText = TextHelper.positionAsText(bookmark.pos);
-        var dimensionText = TextHelper.dimensionAsText(bookmark.dimension);
-        
-        guiGraphics.drawString(font, Component.translatable(Resources.DIMENSION).withStyle(ChatFormatting.BOLD), left, top, color, false);
-        guiGraphics.drawString(font, dimensionText, left, top + 12, color, false);
+        // Author
+        if (bookmark.author != null && !bookmark.author.isEmpty()) {
+            var authorText = Component.translatable(Resources.AUTHOR, bookmark.author);
+            guiGraphics.drawString(font, authorText, left, top, color, false);
+        } else {
+            top = 12;
+        }
 
-        guiGraphics.drawString(font, Component.translatable(Resources.POSITION).withStyle(ChatFormatting.BOLD), left, top + 30, color, false);
-        guiGraphics.drawString(font, positionText, left, top + 42, color, false);
+        // Dimension
+        var dimensionText = TextHelper.dimensionAsText(bookmark.dimension);
+        guiGraphics.drawString(font, Component.translatable(Resources.DIMENSION).withStyle(ChatFormatting.BOLD), left, top + 20, color, false);
+        guiGraphics.drawString(font, dimensionText, left, top + 31, color, false);
+
+        // Block position
+        var positionText = TextHelper.positionAsText(bookmark.pos);
+        guiGraphics.drawString(font, Component.translatable(Resources.POSITION).withStyle(ChatFormatting.BOLD), left, top + 49, color, false);
+        guiGraphics.drawString(font, positionText, left, top + 60, color, false);
+
         pose.popPose();
+    }
+
+    private void renderUtilityButtons(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        var minecraft = Minecraft.getInstance();
+        if (minecraft.level == null) return;
+        if (minecraft.level.getGameTime() % 20 == 0) {
+            sendToPlayerButton.active = journal.handlers.canSendBookmark();
+        }
     }
     
     private void saveAndClose() {
@@ -133,6 +161,10 @@ public class BookmarkScreen extends BaseScreen {
     private void deleteAndClose() {
         journal.handlers.bookmarks().remove(bookmark.id);
         onClose();
+    }
+
+    private void sendToNearbyPlayer() {
+        journal.handlers.openSendBookmark(bookmark.toImmutable());
     }
 
     @Override

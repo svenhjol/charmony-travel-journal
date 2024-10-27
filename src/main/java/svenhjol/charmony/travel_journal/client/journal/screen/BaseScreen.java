@@ -10,6 +10,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.travel_journal.client.journal.Journal;
 import svenhjol.charmony.travel_journal.client.journal.Resources;
+import svenhjol.charmony.travel_journal.common.journal.Bookmark;
 import svenhjol.charmony.travel_journal.helpers.TextHelper;
 
 public abstract class BaseScreen extends Screen {
@@ -68,5 +69,9 @@ public abstract class BaseScreen extends Screen {
     
     protected Minecraft minecraft() {
         return Minecraft.getInstance();
+    }
+
+    protected int getDetailsColor(Bookmark bookmark) {
+        return journal.handlers.belongsToPlayer(bookmark) ? 0xb8907a : 0x909090;
     }
 }

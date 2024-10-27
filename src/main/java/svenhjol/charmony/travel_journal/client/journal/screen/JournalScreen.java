@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import svenhjol.charmony.core.client.CoreButtons;
-import svenhjol.charmony.travel_journal.client.journal.Bookmark;
+import svenhjol.charmony.travel_journal.common.journal.Bookmark;
 import svenhjol.charmony.travel_journal.client.journal.Buttons;
 import svenhjol.charmony.travel_journal.client.journal.Journal;
 import svenhjol.charmony.travel_journal.client.journal.Resources;
@@ -151,7 +151,7 @@ public class JournalScreen extends BaseScreen {
         var pose = guiGraphics.pose();
         var top = 174;
         var left = -88 + (x * 138);
-        var color = 0xb8907a;
+        var color = getDetailsColor(bookmark);;
         
         pose.pushPose();
         pose.translate(midX - 25f, 20f, 1.0f);
@@ -167,7 +167,7 @@ public class JournalScreen extends BaseScreen {
         var pose = guiGraphics.pose();
         var top = 140;
         var left = -82 + (x * 114);
-        var color = 0xb8907a;
+        var color = getDetailsColor(bookmark);
 
         pose.pushPose();
         pose.translate(midX - 25f, 20f, 1.0f);

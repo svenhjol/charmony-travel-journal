@@ -3,6 +3,7 @@ package svenhjol.charmony.travel_journal.client.journal;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.GuiGraphics;
+import svenhjol.charmony.travel_journal.common.journal.Bookmark;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -133,14 +134,8 @@ public class TakePhoto {
         graphics2D.drawImage(image, 0, 0, scaledWidth, scaledHeight, null);
         graphics2D.dispose();
 
-        boolean success;
-        try {
-            success = ImageIO.write(scaledImage, "png", path);
-        } catch (IOException e) {
-            journal.log().error("Could not save resized photo for bookmark " + id + ": " + e.getMessage());
-            return;
-        }
-
+        // Save the photo
+        var success = journal.handlers.savePhoto(bookmark, image);
         if (!success) {
             journal.log().error("Writing image failed for bookmark " + id);
             return;

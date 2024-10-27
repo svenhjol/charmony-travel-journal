@@ -10,10 +10,13 @@
   ],
   "icon": "assets/charmony-travel-journal/textures/gui/sprites/icon.png",
   "license": "MIT",
-  "environment": "client",
+  "environment": "*",
   "accessWidener": "charmony-travel-journal.accesswidener",
 
   "entrypoints": {
+    "main": [
+      "svenhjol.charmony.travel_journal.common.CommonInitializer"
+    ],
     "client": [
       "svenhjol.charmony.travel_journal.client.ClientInitializer"
     ]
@@ -24,7 +27,7 @@
     "minecraft": "*",
     "java": ">=21",
     "fabric-api": "*",
-    "charmony-nano": "${charmony_version}",
+    "charmony": "${charmony_version}",
     "charmony-api": "${api_version}"
   },
 
