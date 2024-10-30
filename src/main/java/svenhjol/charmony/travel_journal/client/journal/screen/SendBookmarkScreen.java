@@ -3,8 +3,8 @@ package svenhjol.charmony.travel_journal.client.journal.screen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.CoreButtons;
 import svenhjol.charmony.travel_journal.common.journal.Bookmark;
@@ -27,7 +27,7 @@ public class SendBookmarkScreen extends BaseScreen {
 
         // Add button to go back
         addRenderableWidget(new CoreButtons.BackButton(midX - (CoreButtons.BackButton.WIDTH / 2), 216,
-            b -> onClose()));
+            b -> back()));
     }
 
     @Override
@@ -91,13 +91,15 @@ public class SendBookmarkScreen extends BaseScreen {
         }
     }
 
-    private void sendToPlayer(LocalPlayer player) {
+    private void sendToPlayer(Player player) {
         journal.handlers.trySendBookmark(bookmark, player);
+        var playerName = player.getScoreboardName();
+        var message = Component.translatable("gui.charmony-travel-journal.sentToPlayer", bookmark.name(), playerName);
+        player.displayClientMessage(message, false);
         onClose();
     }
 
-    @Override
-    public void onClose() {
+    private void back() {
         journal.handlers.openBookmark(bookmark);
     }
 }

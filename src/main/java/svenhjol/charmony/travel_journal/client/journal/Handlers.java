@@ -6,11 +6,11 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.base.Setup;
@@ -201,17 +201,17 @@ public class Handlers extends Setup<Journal> {
         return player.getScoreboardName().equals(bookmark.author());
     }
 
-    public List<LocalPlayer> nearbyPlayers() {
+    public List<Player> nearbyPlayers() {
         return nearbyPlayers(Environment.isDebugMode());
     }
 
-    public List<LocalPlayer> nearbyPlayers(boolean includeCurrentPlayer) {
+    public List<Player> nearbyPlayers(boolean includeCurrentPlayer) {
         var minecraft = Minecraft.getInstance();
         var level = minecraft.level;
         var player = minecraft.player;
         if (level == null || player == null) return List.of();
 
-        var nearbyPlayers = level.getEntitiesOfClass(LocalPlayer.class, (new AABB(player.blockPosition())).inflate(5.0d));
+        var nearbyPlayers = level.getEntitiesOfClass(Player.class, (new AABB(player.blockPosition())).inflate(5.0d));
         if (includeCurrentPlayer) {
             return nearbyPlayers;
         }
@@ -259,7 +259,7 @@ public class Handlers extends Setup<Journal> {
     /**
      * Try and send a bookmark to a nearby player.
      */
-    public void trySendBookmark(Bookmark bookmark, LocalPlayer player) {
+    public void trySendBookmark(Bookmark bookmark, Player player) {
         if (!Environment.usesCharmonyServer()) return;
 
         var minecraft = Minecraft.getInstance();

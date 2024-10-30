@@ -20,6 +20,7 @@
   "gui.charmony-travel-journal.position": "Position",
   "gui.charmony-travel-journal.receiveFromPlayer": "%s has sent you '%s' and it has been added to your journal.",
   "gui.charmony-travel-journal.sendToPlayer": "Send bookmark to nearby player",
+  "gui.charmony-travel-journal.sentToPlayer": "'%s' has been sent to %s.",
   "gui.charmony-travel-journal.takeNewPhoto": "Take new photo",
   "gui.charmony-travel-journal.takePhoto": "Take photo",
   "gui.charmony-travel-journal.travelJournal": "Travel Journal",

@@ -32,8 +32,8 @@ public class BookmarkScreen extends BaseScreen {
         super.init();
         var inputWidth = 220;
         var nameHeight = 15;
-        var descriptionHeight = 46;
-        var top = 110;
+        var descriptionHeight = 44;
+        var top = 107;
         
         name = new EditBox(font, midX - (inputWidth / 2), top, inputWidth, nameHeight, Resources.EDIT_NAME);
         name.setFocused(true);
@@ -48,16 +48,17 @@ public class BookmarkScreen extends BaseScreen {
         addRenderableWidget(name);
         setFocused(name);
         
-        description = new MultiLineEditBox(font, midX - (inputWidth / 2), top + 29, inputWidth, descriptionHeight,
+        description = new MultiLineEditBox(font, midX - (inputWidth / 2), top + 28, inputWidth, descriptionHeight,
             Resources.EDIT_DESCRIPTION, Component.empty());
 
         description.setFocused(false);
         description.setValue(bookmark.description);
         description.setValueListener(val -> bookmark.description = val);
-        description.setCharacterLimit(140);
+        description.setCharacterLimit(157);
         addRenderableWidget(description);
 
-        sendToPlayerButton = new Buttons.SendToPlayerButton(midX + 130, 18,
+        // Add the send to player button
+        sendToPlayerButton = new Buttons.SendToPlayerButton(midX - 110, top + 29 + descriptionHeight + 2,
             b -> sendToNearbyPlayer());
         sendToPlayerButton.active = false;
         sendToPlayerButton.visible = Environment.usesCharmonyServer();
@@ -87,10 +88,11 @@ public class BookmarkScreen extends BaseScreen {
         
         name.render(guiGraphics, mouseX, mouseY, delta);
         description.render(guiGraphics, mouseX, mouseY, delta);
-        
+
+        // Name and description label
         var textColor = 0x404040;
-        guiGraphics.drawString(font, Resources.NAME_TEXT, midX - 109, 101, textColor, false);
-        guiGraphics.drawString(font, Resources.DESCRIPTION, midX - 109, 129, textColor, false);
+        guiGraphics.drawString(font, Resources.NAME_TEXT, midX - 109, 98, textColor, false);
+        guiGraphics.drawString(font, Resources.DESCRIPTION, midX - 109, 126, textColor, false);
     }
 
     private void renderPhoto(GuiGraphics guiGraphics) {

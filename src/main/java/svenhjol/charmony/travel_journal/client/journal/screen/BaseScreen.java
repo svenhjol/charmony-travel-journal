@@ -72,6 +72,6 @@ public abstract class BaseScreen extends Screen {
     }
 
     protected int getDetailsColor(Bookmark bookmark) {
-        return journal.handlers.belongsToPlayer(bookmark) ? 0xb8907a : 0x909090;
+        return journal.handlers.belongsToPlayer(bookmark) ? 0xb8907a : 0x707070;
     }
 }
