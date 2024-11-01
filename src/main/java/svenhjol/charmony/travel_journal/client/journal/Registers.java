@@ -21,24 +21,25 @@ public class Registers extends Setup<Journal> {
 
     public Registers(Journal feature) {
         super(feature);
-
-        openJournalKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-            "key.charmony-travel-journal.openJournal",
-            GLFW.GLFW_KEY_J,
-            "key.categories.misc"));
-        makeBookmarkKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-            "key.charmony-travel-journal.makeBookmark",
-            GLFW.GLFW_KEY_B,
-            "key.categories.misc"));
-        interactSound = SoundEvent.createVariableRangeEvent(
-            ResourceLocation.fromNamespaceAndPath(TravelJournal.ID, "interact"));
-        photoSound = SoundEvent.createVariableRangeEvent(
-            ResourceLocation.fromNamespaceAndPath(TravelJournal.ID, "photo"));
     }
 
     @Override
     public Runnable boot() {
         return () -> {
+            interactSound = SoundEvent.createVariableRangeEvent(
+                ResourceLocation.fromNamespaceAndPath(TravelJournal.ID, "interact"));
+            photoSound = SoundEvent.createVariableRangeEvent(
+                ResourceLocation.fromNamespaceAndPath(TravelJournal.ID, "photo"));
+
+            openJournalKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+                "key.charmony-travel-journal.openJournal",
+                GLFW.GLFW_KEY_J,
+                "key.categories.misc"));
+            makeBookmarkKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+                "key.charmony-travel-journal.makeBookmark",
+                GLFW.GLFW_KEY_B,
+                "key.categories.misc"));
+
             ClientLoginPlayerCallback.EVENT.register(feature().handlers::clientLogin);
             ClientTickEvents.END_CLIENT_TICK.register(feature().handlers::clientTick);
             HudRenderCallback.EVENT.register(feature().handlers::hudRender);

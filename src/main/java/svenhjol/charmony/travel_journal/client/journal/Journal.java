@@ -11,7 +11,7 @@ import svenhjol.charmony.travel_journal.TravelJournal;
 import java.util.ArrayList;
 import java.util.List;
 
-@FeatureDefinition(side = Side.Client, canBeDisabled = false, description = """
+@FeatureDefinition(side = Side.Client, description = """
     A journal that holds bookmarks to places of interest.""")
 public final class Journal extends SidedFeature {
     public final Registers registers;
