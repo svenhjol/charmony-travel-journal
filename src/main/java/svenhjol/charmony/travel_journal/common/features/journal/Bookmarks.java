@@ -1,11 +1,11 @@
-package svenhjol.charmony.travel_journal.common.journal;
+package svenhjol.charmony.travel_journal.common.features.journal;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import svenhjol.charmony.core.base.Log;
 import svenhjol.charmony.travel_journal.TravelJournal;
-import svenhjol.charmony.travel_journal.client.journal.Journal;
+import svenhjol.charmony.travel_journal.client.features.journal.Journal;
 
 import java.io.File;
 import java.io.FileWriter;

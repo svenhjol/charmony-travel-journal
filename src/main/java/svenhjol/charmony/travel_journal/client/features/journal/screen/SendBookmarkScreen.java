@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.client.journal.screen;
+package svenhjol.charmony.travel_journal.client.features.journal.screen;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.CoreButtons;
-import svenhjol.charmony.travel_journal.common.journal.Bookmark;
+import svenhjol.charmony.travel_journal.common.features.journal.Bookmark;
 
 import java.util.ArrayList;
 import java.util.List;

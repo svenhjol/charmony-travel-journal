@@ -1,14 +1,14 @@
-package svenhjol.charmony.travel_journal.client.journal.screen;
+package svenhjol.charmony.travel_journal.client.features.journal.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import svenhjol.charmony.core.client.CoreButtons;
-import svenhjol.charmony.travel_journal.common.journal.Bookmark;
-import svenhjol.charmony.travel_journal.client.journal.Buttons;
-import svenhjol.charmony.travel_journal.client.journal.Journal;
-import svenhjol.charmony.travel_journal.client.journal.Resources;
+import svenhjol.charmony.travel_journal.common.features.journal.Bookmark;
+import svenhjol.charmony.travel_journal.client.features.journal.Buttons;
+import svenhjol.charmony.travel_journal.client.features.journal.Journal;
+import svenhjol.charmony.travel_journal.client.features.journal.Resources;
 import svenhjol.charmony.travel_journal.helpers.TextHelper;
 
 import java.text.SimpleDateFormat;

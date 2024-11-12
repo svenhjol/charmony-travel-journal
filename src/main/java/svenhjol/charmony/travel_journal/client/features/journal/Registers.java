@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.client.journal;
+package svenhjol.charmony.travel_journal.client.features.journal;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -11,7 +11,7 @@ import org.lwjgl.glfw.GLFW;
 import svenhjol.charmony.core.base.Setup;
 import svenhjol.charmony.core.events.ClientLoginPlayerCallback;
 import svenhjol.charmony.travel_journal.TravelJournal;
-import svenhjol.charmony.travel_journal.common.journal.Networking.S2CSendBookmarkToPlayer;
+import svenhjol.charmony.travel_journal.common.features.journal.Networking.S2CSendBookmarkToPlayer;
 
 public class Registers extends Setup<Journal> {
     public KeyMapping openJournalKey;

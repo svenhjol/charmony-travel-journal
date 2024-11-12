@@ -1,9 +1,9 @@
-package svenhjol.charmony.travel_journal.client.journal;
+package svenhjol.charmony.travel_journal.client.features.journal;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.GuiGraphics;
-import svenhjol.charmony.travel_journal.common.journal.Bookmark;
+import svenhjol.charmony.travel_journal.common.features.journal.Bookmark;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

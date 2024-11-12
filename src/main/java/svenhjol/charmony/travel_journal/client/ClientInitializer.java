@@ -3,7 +3,7 @@ package svenhjol.charmony.travel_journal.client;
 import net.fabricmc.api.ClientModInitializer;
 import svenhjol.charmony.core.enums.Side;
 import svenhjol.charmony.travel_journal.TravelJournal;
-import svenhjol.charmony.travel_journal.client.journal.Journal;
+import svenhjol.charmony.travel_journal.client.features.journal.Journal;
 
 public class ClientInitializer implements ClientModInitializer {
     @Override

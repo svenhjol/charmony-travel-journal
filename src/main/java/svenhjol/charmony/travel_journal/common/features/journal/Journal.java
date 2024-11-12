@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.common.journal;
+package svenhjol.charmony.travel_journal.common.features.journal;
 
 import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.base.Mod;

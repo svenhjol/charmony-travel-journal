@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.client.journal;
+package svenhjol.charmony.travel_journal.client.features.journal;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -14,13 +14,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.base.Setup;
-import svenhjol.charmony.travel_journal.client.journal.screen.BookmarkScreen;
-import svenhjol.charmony.travel_journal.client.journal.screen.JournalScreen;
-import svenhjol.charmony.travel_journal.client.journal.screen.SendBookmarkScreen;
-import svenhjol.charmony.travel_journal.common.journal.Bookmark;
-import svenhjol.charmony.travel_journal.common.journal.Bookmarks;
-import svenhjol.charmony.travel_journal.common.journal.Networking;
-import svenhjol.charmony.travel_journal.common.journal.Networking.S2CSendBookmarkToPlayer;
+import svenhjol.charmony.travel_journal.client.features.journal.screen.BookmarkScreen;
+import svenhjol.charmony.travel_journal.client.features.journal.screen.JournalScreen;
+import svenhjol.charmony.travel_journal.client.features.journal.screen.SendBookmarkScreen;
+import svenhjol.charmony.travel_journal.common.features.journal.Bookmark;
+import svenhjol.charmony.travel_journal.common.features.journal.Bookmarks;
+import svenhjol.charmony.travel_journal.common.features.journal.Networking;
+import svenhjol.charmony.travel_journal.common.features.journal.Networking.S2CSendBookmarkToPlayer;
 
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;

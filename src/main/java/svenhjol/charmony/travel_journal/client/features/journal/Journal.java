@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.client.journal;
+package svenhjol.charmony.travel_journal.client.features.journal;
 
 import net.minecraft.util.Mth;
 import svenhjol.charmony.core.annotations.Configurable;

@@ -1,10 +1,10 @@
-package svenhjol.charmony.travel_journal.common.journal;
+package svenhjol.charmony.travel_journal.common.features.journal;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import svenhjol.charmony.core.base.Setup;
-import svenhjol.charmony.travel_journal.common.journal.Networking.C2SPlayerSettings;
-import svenhjol.charmony.travel_journal.common.journal.Networking.C2SSendBookmarkToPlayer;
-import svenhjol.charmony.travel_journal.common.journal.Networking.S2CSendBookmarkToPlayer;
+import svenhjol.charmony.travel_journal.common.features.journal.Networking.C2SPlayerSettings;
+import svenhjol.charmony.travel_journal.common.features.journal.Networking.C2SSendBookmarkToPlayer;
+import svenhjol.charmony.travel_journal.common.features.journal.Networking.S2CSendBookmarkToPlayer;
 
 import java.util.HashMap;
 import java.util.List;

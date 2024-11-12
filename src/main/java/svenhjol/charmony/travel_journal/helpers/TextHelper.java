@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.text.WordUtils;
-import svenhjol.charmony.travel_journal.client.journal.Resources;
+import svenhjol.charmony.travel_journal.client.features.journal.Resources;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.common.journal;
+package svenhjol.charmony.travel_journal.common.features.journal;
 
 import com.google.gson.Gson;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

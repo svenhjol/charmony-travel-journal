@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.client.journal;
+package svenhjol.charmony.travel_journal.client.features.journal;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.network.chat.Component;

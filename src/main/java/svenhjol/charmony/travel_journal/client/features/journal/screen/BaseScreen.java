@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.client.journal.screen;
+package svenhjol.charmony.travel_journal.client.features.journal.screen;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -8,9 +8,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import svenhjol.charmony.travel_journal.client.journal.Journal;
-import svenhjol.charmony.travel_journal.client.journal.Resources;
-import svenhjol.charmony.travel_journal.common.journal.Bookmark;
+import svenhjol.charmony.travel_journal.client.features.journal.Journal;
+import svenhjol.charmony.travel_journal.client.features.journal.Resources;
+import svenhjol.charmony.travel_journal.common.features.journal.Bookmark;
 import svenhjol.charmony.travel_journal.helpers.TextHelper;
 
 public abstract class BaseScreen extends Screen {

@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.client.journal;
+package svenhjol.charmony.travel_journal.client.features.journal;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
