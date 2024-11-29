@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.0
+
+- Build for 1.21.4.
+- Fix photo ID registration change.
+
 ## 1.1.1
 
 - Update send icon

@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.base.Setup;
+import svenhjol.charmony.travel_journal.TravelJournal;
 import svenhjol.charmony.travel_journal.client.features.journal.screen.BookmarkScreen;
 import svenhjol.charmony.travel_journal.client.features.journal.screen.JournalScreen;
 import svenhjol.charmony.travel_journal.client.features.journal.screen.SendBookmarkScreen;
@@ -315,13 +316,11 @@ public class Handlers extends Setup<Journal> {
             var stream = new FileInputStream(file);
             var photo = NativeImage.read(stream);
             var dynamicTexture = new DynamicTexture(photo);
-            var registeredTexture = minecraft.getTextureManager().register("charmony_photo", dynamicTexture);
+            var photoId = TravelJournal.id("bookmark_photo_" + bookmark.id());
+            minecraft.getTextureManager().register(photoId, dynamicTexture);
             stream.close();
 
-            cachedPhotos.put(id, registeredTexture);
-            if (registeredTexture == null) {
-                throw new Exception("Problem with image texture / registered texture for bookmarkId: " + id);
-            }
+            cachedPhotos.put(id, photoId);
 
         } catch (Exception e) {
             log().error(e.getMessage());
