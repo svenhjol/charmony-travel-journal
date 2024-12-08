@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+- Update icon.
+
 ## 1.2.0
 
 - Build for 1.21.4.
