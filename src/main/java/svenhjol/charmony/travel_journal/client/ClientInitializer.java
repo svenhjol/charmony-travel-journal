@@ -13,7 +13,7 @@ public class ClientInitializer implements ClientModInitializer {
 
         // Bootstrap and run the mod.
         var travelJournal = TravelJournal.instance();
-        travelJournal.addFeature(Journal.class);
+        travelJournal.addSidedFeature(Journal.class);
         travelJournal.run(Side.Client);
     }
 }

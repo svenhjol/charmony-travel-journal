@@ -21,6 +21,6 @@ public final class Journal extends SidedFeature {
     }
 
     public static Journal feature() {
-        return TravelJournal.instance().feature(Journal.class);
+        return TravelJournal.instance().sidedFeature(Journal.class);
     }
 }

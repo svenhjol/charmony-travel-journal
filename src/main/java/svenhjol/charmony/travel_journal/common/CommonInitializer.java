@@ -13,7 +13,7 @@ public class CommonInitializer implements ModInitializer {
 
         // Bootstrap and run the common features.
         var travelJournal = TravelJournal.instance();
-        travelJournal.addFeature(Journal.class);
+        travelJournal.addSidedFeature(Journal.class);
         travelJournal.run(Side.Common);
     }
 }
