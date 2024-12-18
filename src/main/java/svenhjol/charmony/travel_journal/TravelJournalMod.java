@@ -5,16 +5,16 @@ import svenhjol.charmony.core.annotations.ModDefinition;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.enums.Side;
 
-@ModDefinition(id = TravelJournal.ID, sides = {Side.Client},
+@ModDefinition(id = TravelJournalMod.ID, sides = {Side.Common, Side.Client},
     name = "Travel journal",
     description = "A journal to record interesting places around the world. Compatible with vanilla servers such as Realms.")
-public class TravelJournal extends Mod {
+public class TravelJournalMod extends Mod {
     public static final String ID = "charmony-travel-journal";
-    private static TravelJournal instance;
+    private static TravelJournalMod instance;
 
-    public static TravelJournal instance() {
+    public static TravelJournalMod instance() {
         if (instance == null) {
-            instance = new TravelJournal();
+            instance = new TravelJournalMod();
         }
         return instance;
     }

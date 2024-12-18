@@ -1,21 +1,21 @@
-package svenhjol.charmony.travel_journal.common.features.journal;
+package svenhjol.charmony.travel_journal.common.features.travel_journal;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import svenhjol.charmony.core.base.Setup;
-import svenhjol.charmony.travel_journal.common.features.journal.Networking.C2SPlayerSettings;
-import svenhjol.charmony.travel_journal.common.features.journal.Networking.C2SSendBookmarkToPlayer;
-import svenhjol.charmony.travel_journal.common.features.journal.Networking.S2CSendBookmarkToPlayer;
+import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.C2SPlayerSettings;
+import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.C2SSendBookmarkToPlayer;
+import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.S2CSendBookmarkToPlayer;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class Handlers extends Setup<Journal> {
+public final class Handlers extends Setup<TravelJournal> {
     private final Map<UUID, Boolean> playerCanReceiveBookmarks = new HashMap<>();
     private final Map<UUID, List<String>> playerAllowBookmarksFrom = new HashMap<>();
 
-    public Handlers(Journal feature) {
+    public Handlers(TravelJournal feature) {
         super(feature);
     }
 

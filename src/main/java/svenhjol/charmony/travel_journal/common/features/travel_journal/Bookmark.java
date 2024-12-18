@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.common.features.journal;
+package svenhjol.charmony.travel_journal.common.features.travel_journal;
 
 import com.google.gson.GsonBuilder;
 import net.minecraft.core.BlockPos;

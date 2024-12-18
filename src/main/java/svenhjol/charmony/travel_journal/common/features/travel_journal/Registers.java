@@ -1,12 +1,12 @@
-package svenhjol.charmony.travel_journal.common.features.journal;
+package svenhjol.charmony.travel_journal.common.features.travel_journal;
 
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import svenhjol.charmony.core.base.Setup;
-import svenhjol.charmony.travel_journal.common.features.journal.Networking.*;
+import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.*;
 
-public class Registers extends Setup<Journal> {
-    public Registers(Journal feature) {
+public final class Registers extends Setup<TravelJournal> {
+    public Registers(TravelJournal feature) {
         super(feature);
     }
 

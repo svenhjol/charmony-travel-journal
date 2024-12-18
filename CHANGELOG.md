@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+- Correctly name "Journal" feature to be "Travel journal".
+
 ## 1.2.2
 
 - Refactor for Charmony 1.14.0

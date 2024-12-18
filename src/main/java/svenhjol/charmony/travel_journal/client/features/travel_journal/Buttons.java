@@ -1,11 +1,11 @@
-package svenhjol.charmony.travel_journal.client.features.journal;
+package svenhjol.charmony.travel_journal.client.features.travel_journal;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.network.chat.Component;
-import svenhjol.charmony.travel_journal.TravelJournal;
+import svenhjol.charmony.travel_journal.TravelJournalMod;
 
 public class Buttons {
     public static final WidgetSprites SEND_TO_PLAYER_BUTTON = makeButtonWithDisabled("send_to_player");
@@ -44,14 +44,14 @@ public class Buttons {
 
     static WidgetSprites makeButton(String name) {
         return new WidgetSprites(
-            TravelJournal.id("widget/buttons/" + name + "_button"),
-            TravelJournal.id("widget/buttons/" + name + "_button_highlighted"));
+            TravelJournalMod.id("widget/buttons/" + name + "_button"),
+            TravelJournalMod.id("widget/buttons/" + name + "_button_highlighted"));
     }
 
     static WidgetSprites makeButtonWithDisabled(String name) {
         return new WidgetSprites(
-            TravelJournal.id("widget/buttons/" + name + "_button"),
-            TravelJournal.id("widget/buttons/" + name + "_button_disabled"),
-            TravelJournal.id("widget/buttons/" + name + "_button_highlighted"));
+            TravelJournalMod.id("widget/buttons/" + name + "_button"),
+            TravelJournalMod.id("widget/buttons/" + name + "_button_disabled"),
+            TravelJournalMod.id("widget/buttons/" + name + "_button_highlighted"));
     }
 }

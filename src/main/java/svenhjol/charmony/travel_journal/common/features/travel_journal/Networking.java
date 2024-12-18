@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.common.features.journal;
+package svenhjol.charmony.travel_journal.common.features.travel_journal;
 
 import com.google.gson.Gson;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -8,7 +8,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import svenhjol.charmony.core.base.Setup;
-import svenhjol.charmony.travel_journal.TravelJournal;
+import svenhjol.charmony.travel_journal.TravelJournalMod;
 import svenhjol.charmony.travel_journal.helpers.StreamHelper;
 
 import javax.imageio.ImageIO;
@@ -20,13 +20,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class Networking extends Setup<Journal> {
-    public Networking(Journal feature) {
+public final class Networking extends Setup<TravelJournal> {
+    public Networking(TravelJournal feature) {
         super(feature);
     }
 
     public record S2CSendBookmarkToPlayer(Bookmark bookmark, BufferedImage photo, String sender) implements CustomPacketPayload {
-        public static final Type<S2CSendBookmarkToPlayer> TYPE = new Type<>(TravelJournal.id("server_send_bookmark_to_player"));
+        public static final Type<S2CSendBookmarkToPlayer> TYPE = new Type<>(TravelJournalMod.id("server_send_bookmark_to_player"));
         public static final StreamCodec<FriendlyByteBuf, S2CSendBookmarkToPlayer> CODEC =
             StreamCodec.of(S2CSendBookmarkToPlayer::encode, S2CSendBookmarkToPlayer::decode);
 
@@ -58,7 +58,7 @@ public class Networking extends Setup<Journal> {
     }
 
     public record C2SSendBookmarkToPlayer(Bookmark bookmark, BufferedImage photo, UUID recipient) implements CustomPacketPayload {
-        public static final Type<C2SSendBookmarkToPlayer> TYPE = new Type<>(TravelJournal.id("client_send_bookmark_to_player"));
+        public static final Type<C2SSendBookmarkToPlayer> TYPE = new Type<>(TravelJournalMod.id("client_send_bookmark_to_player"));
         public static final StreamCodec<FriendlyByteBuf, C2SSendBookmarkToPlayer> CODEC =
             StreamCodec.of(C2SSendBookmarkToPlayer::encode, C2SSendBookmarkToPlayer::decode);
 
@@ -89,7 +89,7 @@ public class Networking extends Setup<Journal> {
     }
 
     public record C2SPlayerSettings(boolean allowReceiving, List<String> allowFrom) implements CustomPacketPayload {
-        public static final Type<C2SPlayerSettings> TYPE = new Type<>(TravelJournal.id("client_player_settings"));
+        public static final Type<C2SPlayerSettings> TYPE = new Type<>(TravelJournalMod.id("client_player_settings"));
         public static final StreamCodec<FriendlyByteBuf, C2SPlayerSettings> CODEC =
             StreamCodec.of(C2SPlayerSettings::encode, C2SPlayerSettings::decode);
 

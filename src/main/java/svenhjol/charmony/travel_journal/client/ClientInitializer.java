@@ -2,8 +2,8 @@ package svenhjol.charmony.travel_journal.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import svenhjol.charmony.core.enums.Side;
-import svenhjol.charmony.travel_journal.TravelJournal;
-import svenhjol.charmony.travel_journal.client.features.journal.Journal;
+import svenhjol.charmony.travel_journal.TravelJournalMod;
+import svenhjol.charmony.travel_journal.client.features.travel_journal.TravelJournal;
 
 public class ClientInitializer implements ClientModInitializer {
     @Override
@@ -12,8 +12,8 @@ public class ClientInitializer implements ClientModInitializer {
         svenhjol.charmony.core.client.ClientInitializer.init();
 
         // Bootstrap and run the mod.
-        var travelJournal = TravelJournal.instance();
-        travelJournal.addSidedFeature(Journal.class);
+        var travelJournal = TravelJournalMod.instance();
+        travelJournal.addSidedFeature(TravelJournal.class);
         travelJournal.run(Side.Client);
     }
 }

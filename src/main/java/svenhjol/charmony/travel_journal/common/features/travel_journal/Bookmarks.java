@@ -1,11 +1,11 @@
-package svenhjol.charmony.travel_journal.common.features.journal;
+package svenhjol.charmony.travel_journal.common.features.travel_journal;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import svenhjol.charmony.core.base.Log;
-import svenhjol.charmony.travel_journal.TravelJournal;
-import svenhjol.charmony.travel_journal.client.features.journal.Journal;
+import svenhjol.charmony.travel_journal.TravelJournalMod;
+import svenhjol.charmony.travel_journal.client.features.travel_journal.TravelJournal;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Bookmarks {
-    private static final Log LOGGER = new Log(TravelJournal.ID, "Bookmarks");
+    private static final Log LOGGER = new Log(TravelJournalMod.ID, "Bookmarks");
     private static final Map<File, Bookmarks> instances = new HashMap<>();
     private final List<Bookmark> bookmarks = new LinkedList<>();
     private final File session;
@@ -105,7 +105,7 @@ public class Bookmarks {
 
     public Bookmarks remove(UUID id) {
         get(id).ifPresent(bookmark -> {
-            Journal.feature().handlers.deletePhoto(bookmark);
+            TravelJournal.feature().handlers.deletePhoto(bookmark);
             bookmarks.remove(bookmark);
         });
         return save();

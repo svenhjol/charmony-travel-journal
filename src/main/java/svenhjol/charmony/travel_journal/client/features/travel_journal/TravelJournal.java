@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.client.features.journal;
+package svenhjol.charmony.travel_journal.client.features.travel_journal;
 
 import net.minecraft.util.Mth;
 import svenhjol.charmony.core.annotations.Configurable;
@@ -6,14 +6,14 @@ import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.enums.Side;
-import svenhjol.charmony.travel_journal.TravelJournal;
+import svenhjol.charmony.travel_journal.TravelJournalMod;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @FeatureDefinition(side = Side.Client, description = """
     A journal that holds bookmarks to places of interest.""")
-public final class Journal extends SidedFeature {
+public final class TravelJournal extends SidedFeature {
     public final Registers registers;
     public final Handlers handlers;
 
@@ -62,14 +62,14 @@ public final class Journal extends SidedFeature {
     )
     private static List<String> allowReceivingFrom = new ArrayList<>();
 
-    public Journal(Mod mod) {
+    public TravelJournal(Mod mod) {
         super(mod);
         this.registers = new Registers(this);
         this.handlers = new Handlers(this);
     }
 
-    public static Journal feature() {
-        return TravelJournal.instance().sidedFeature(Journal.class);
+    public static TravelJournal feature() {
+        return TravelJournalMod.instance().sidedFeature(TravelJournal.class);
     }
 
     public int scaledPhotoWidth() {

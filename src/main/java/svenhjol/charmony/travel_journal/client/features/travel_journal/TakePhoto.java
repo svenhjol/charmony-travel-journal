@@ -1,9 +1,9 @@
-package svenhjol.charmony.travel_journal.client.features.journal;
+package svenhjol.charmony.travel_journal.client.features.travel_journal;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.GuiGraphics;
-import svenhjol.charmony.travel_journal.common.features.journal.Bookmark;
+import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmark;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class TakePhoto {
     private final Bookmark bookmark;
-    private final Journal journal;
+    private final TravelJournal journal;
     private int ticks;
     private boolean valid;
     private boolean finished;
@@ -20,7 +20,7 @@ public class TakePhoto {
 
     public TakePhoto(Bookmark bookmark) {
         this.bookmark = bookmark;
-        this.journal = Journal.feature();
+        this.journal = TravelJournal.feature();
         this.valid = true;
         this.finished = false;
         this.isTakingPhoto = false;

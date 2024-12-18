@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.client.features.journal.screen;
+package svenhjol.charmony.travel_journal.client.features.travel_journal.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
@@ -11,9 +11,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.CoreButtons;
-import svenhjol.charmony.travel_journal.client.features.journal.Buttons;
-import svenhjol.charmony.travel_journal.client.features.journal.Resources;
-import svenhjol.charmony.travel_journal.common.features.journal.Bookmark;
+import svenhjol.charmony.travel_journal.client.features.travel_journal.Buttons;
+import svenhjol.charmony.travel_journal.client.features.travel_journal.Resources;
+import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmark;
 import svenhjol.charmony.travel_journal.helpers.TextHelper;
 
 public class BookmarkScreen extends BaseScreen {

@@ -1,4 +1,4 @@
-package svenhjol.charmony.travel_journal.client.features.journal;
+package svenhjol.charmony.travel_journal.client.features.travel_journal;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -14,14 +14,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.base.Setup;
-import svenhjol.charmony.travel_journal.TravelJournal;
-import svenhjol.charmony.travel_journal.client.features.journal.screen.BookmarkScreen;
-import svenhjol.charmony.travel_journal.client.features.journal.screen.JournalScreen;
-import svenhjol.charmony.travel_journal.client.features.journal.screen.SendBookmarkScreen;
-import svenhjol.charmony.travel_journal.common.features.journal.Bookmark;
-import svenhjol.charmony.travel_journal.common.features.journal.Bookmarks;
-import svenhjol.charmony.travel_journal.common.features.journal.Networking;
-import svenhjol.charmony.travel_journal.common.features.journal.Networking.S2CSendBookmarkToPlayer;
+import svenhjol.charmony.travel_journal.TravelJournalMod;
+import svenhjol.charmony.travel_journal.client.features.travel_journal.screen.BookmarkScreen;
+import svenhjol.charmony.travel_journal.client.features.travel_journal.screen.JournalScreen;
+import svenhjol.charmony.travel_journal.client.features.travel_journal.screen.SendBookmarkScreen;
+import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmark;
+import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmarks;
+import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking;
+import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.S2CSendBookmarkToPlayer;
 
 import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
@@ -34,7 +34,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 
-public class Handlers extends Setup<Journal> {
+public final class Handlers extends Setup<TravelJournal> {
     private static final String SEP = File.separator;
     private static final String CHARMONY_BASE = "charmony";
     private static final String TRAVEL_JOURNAL_BASE = "travel_journal";
@@ -47,7 +47,7 @@ public class Handlers extends Setup<Journal> {
     private Bookmarks bookmarks = null;
     private TakePhoto takePhoto = null;
 
-    public Handlers(Journal feature) {
+    public Handlers(TravelJournal feature) {
         super(feature);
     }
 
@@ -316,7 +316,7 @@ public class Handlers extends Setup<Journal> {
             var stream = new FileInputStream(file);
             var photo = NativeImage.read(stream);
             var dynamicTexture = new DynamicTexture(photo);
-            var photoId = TravelJournal.id("bookmark_photo_" + bookmark.id());
+            var photoId = TravelJournalMod.id("bookmark_photo_" + bookmark.id());
             minecraft.getTextureManager().register(photoId, dynamicTexture);
             stream.close();
 
