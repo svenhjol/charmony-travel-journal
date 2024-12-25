@@ -3,4 +3,5 @@ plugins {
     id 'maven-publish'
 }
 
+//apply from: resources.text.fromInsecureUri("http://charmony.work/1.22/build.gradle")
 apply from: "https://charmony.work/1.22/build.gradle"

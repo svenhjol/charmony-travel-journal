@@ -5,6 +5,7 @@
 
   "name": "Charmony Travel Journal",
   "description": "A journal to record interesting places around the world. Compatible with vanilla servers such as Realms.",
+
   "authors": [
     "svenhjol"
   ],
@@ -12,27 +13,37 @@
   "license": "MIT",
   "environment": "*",
   "accessWidener": "charmony-travel-journal.accesswidener",
-
   "entrypoints": {
     "main": [
-      "svenhjol.charmony.travel_journal.common.CommonInitializer"
+        "svenhjol.charmony.travel_journal.common.CommonInitializer"
     ],
     "client": [
-      "svenhjol.charmony.travel_journal.client.ClientInitializer"
+        "svenhjol.charmony.travel_journal.client.ClientInitializer"
     ]
   },
+
+  "mixins": [],
 
   "depends": {
     "fabricloader": ">=${loader_version}",
     "minecraft": "*",
-    "java": ">=21",
+    "java": ">=${java_version}",
     "fabric-api": "*",
-    "charmony": "${charmony_version}",
-    "charmony-api": "${api_version}"
+    "charmony": ">=${charmony_version}",
+    "charmony-api": ">=${api_version}"
   },
 
   "contact": {
-    "homepage": "https://charmony.work",
+    "homepage": "${homepage_link}",
     "sources": "https://github.com/svenhjol/${mod_id}"
+  },
+
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "${discord_link}"
+      },
+      "update_checker": true
+    }
   }
 }
