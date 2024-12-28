@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1
+
+- Brighten text color of title and position.
+
 ## 1.3.0
 
 - Correctly name "Journal" feature to be "Travel journal".

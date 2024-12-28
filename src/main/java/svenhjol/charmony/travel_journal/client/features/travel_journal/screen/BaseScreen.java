@@ -60,7 +60,7 @@ public abstract class BaseScreen extends Screen {
     
     protected void renderTitle(GuiGraphics guiGraphics, int x, int y) {
         MutableComponent title = (MutableComponent)getTitle();
-        TextHelper.drawCenteredString(guiGraphics, font, title.withStyle(ChatFormatting.BOLD), x, y, 0x702f20, false);
+        TextHelper.drawCenteredString(guiGraphics, font, title.withStyle(ChatFormatting.BOLD), x, y, 0xa04030, false);
     }
     
     protected ResourceLocation getBackgroundTexture() {
@@ -72,6 +72,6 @@ public abstract class BaseScreen extends Screen {
     }
 
     protected int getDetailsColor(Bookmark bookmark) {
-        return journal.handlers.belongsToPlayer(bookmark) ? 0xb8907a : 0x707070;
+        return journal.handlers.belongsToPlayer(bookmark) ? 0x802010 : 0x606060;
     }
 }
