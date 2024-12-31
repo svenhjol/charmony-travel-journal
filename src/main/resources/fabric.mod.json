@@ -19,6 +19,9 @@
     ],
     "client": [
         "svenhjol.charmony.travel_journal.client.ClientInitializer"
+    ],
+    "modmenu": [
+        "svenhjol.charmony.travel_journal.integration.ModMenuPlugin"
     ]
   },
 

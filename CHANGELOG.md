@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.2
+
+- Add modmenu support.
+
 ## 1.3.1
 
 - Brighten text color of title and position.
