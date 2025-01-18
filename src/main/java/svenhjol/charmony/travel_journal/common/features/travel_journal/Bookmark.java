@@ -13,7 +13,7 @@ import java.util.UUID;
 public record Bookmark(
     UUID id, String name, ResourceKey<Level> dimension, BlockPos pos,
     String author, String description, long timestamp, DyeColor color) {
-    public static final DyeColor DEFAULT_COLOR = DyeColor.GRAY;
+    public static final DyeColor DEFAULT_COLOR = DyeColor.WHITE;
 
     public static Bookmark create(Player player) {
         return new Bookmark(

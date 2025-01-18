@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.2
+
+- Default bookmark color is now white.
+
 ## 1.4.1
 
 - Show the name of the closest bookmark in the hud.
