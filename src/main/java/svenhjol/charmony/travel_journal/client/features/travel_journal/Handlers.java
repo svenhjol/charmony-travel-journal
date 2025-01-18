@@ -33,6 +33,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 
+@SuppressWarnings("unused")
 public final class Handlers extends Setup<TravelJournal> {
     private static final String SEP = File.separator;
     private static final String CHARMONY_BASE = "charmony";
@@ -50,11 +51,8 @@ public final class Handlers extends Setup<TravelJournal> {
         super(feature);
     }
 
-    public void clientTick(Minecraft minecraft) {
-        // We only tick when in game.
-        if (minecraft.player == null) {
-            return;
-        }
+    public void playerTick(Player player) {
+        if (!player.level().isClientSide()) return;
 
         // Listen to key bindings.
         while (feature().registers.openJournalKey.consumeClick()) {
@@ -82,6 +80,8 @@ public final class Handlers extends Setup<TravelJournal> {
                 takePhoto.tick();
             }
         }
+
+        feature().registers.hudRenderer.tick(player);
     }
 
     /**
@@ -107,38 +107,18 @@ public final class Handlers extends Setup<TravelJournal> {
     }
 
     public void hudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        var minecraft = Minecraft.getInstance();
         takePhotoHudRender(guiGraphics, deltaTracker);
-        proximityHudRender(guiGraphics, deltaTracker);
+
+        if (feature().showClosestBookmark() && takePhoto == null && !minecraft.options.hideGui) {
+            feature().registers.hudRenderer.render(guiGraphics, deltaTracker);
+        }
     }
 
     public void takePhotoHudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         if (takePhoto != null && takePhoto.isValid()) {
             takePhoto.renderCountdown(guiGraphics);
         }
-    }
-
-    public void proximityHudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        var minecraft = Minecraft.getInstance();
-        var player = minecraft.player;
-        if (player == null) return;
-
-        if (!feature().showClosestBookmark()) return;
-        if (takePhoto != null) return;
-        if (minecraft.options.hideGui) return;
-
-        var pos = player.blockPosition();
-        var bookmark = bookmarks.closest(pos).orElse(null);
-        if (bookmark == null) return;
-
-        var gui = minecraft.gui;
-        var window = minecraft.getWindow();
-        var font = gui.getFont();
-        var alpha = 240;
-        var x = 16;
-        var y = window.getGuiScaledHeight() - 16;
-        var color = 0xffffff;
-
-        guiGraphics.drawString(font, Component.literal(bookmark.name()), x, y, color | alpha);
     }
 
     public Bookmarks bookmarks() {

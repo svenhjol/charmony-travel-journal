@@ -40,7 +40,11 @@ public class Bookmarks {
     }
 
     public Optional<Bookmark> closest(BlockPos pos) {
-        return bookmarks.stream().filter(bookmark -> bookmark.pos().distManhattan(pos) < 32).findFirst();
+        return bookmarks.stream().filter(bookmark -> bookmark.pos().distManhattan(pos) < 32).min((a, b) -> {
+            var ap = a.pos().distManhattan(pos);
+            var bp = b.pos().distManhattan(pos);
+            return Integer.compare(ap, bp);
+        });
     }
 
     public Optional<Bookmark> get(int index) {

@@ -3,6 +3,8 @@
 ## 1.4.2
 
 - Default bookmark color is now white.
+- Showing the closest bookmark now uses a hud renderer.
+- Fix comparison when showing the closest bookmark from a set.
 
 ## 1.4.1
 
