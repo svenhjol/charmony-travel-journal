@@ -10,10 +10,12 @@ import svenhjol.charmony.travel_journal.TravelJournalMod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 @FeatureDefinition(side = Side.Client, description = """
     A journal that holds bookmarks to places of interest.""")
 public final class TravelJournal extends SidedFeature {
+    public final Supplier<Common> common;
     public final Registers registers;
     public final Handlers handlers;
 
@@ -62,10 +64,18 @@ public final class TravelJournal extends SidedFeature {
     )
     private static List<String> allowReceivingFrom = new ArrayList<>();
 
+    @Configurable(
+        name = "Show closest bookmark",
+        description = "If true, the closest bookmark to the player will be shown on the hud.",
+        requireRestart = false
+    )
+    private static boolean showClosestBookmark = true;
+
     public TravelJournal(Mod mod) {
         super(mod);
-        this.registers = new Registers(this);
-        this.handlers = new Handlers(this);
+        common = Common::new;
+        registers = new Registers(this);
+        handlers = new Handlers(this);
     }
 
     public static TravelJournal feature() {
@@ -86,5 +96,9 @@ public final class TravelJournal extends SidedFeature {
 
     public List<String> canReceiveFrom() {
         return allowReceivingFrom;
+    }
+
+    public boolean showClosestBookmark() {
+        return showClosestBookmark;
     }
 }

@@ -2,22 +2,17 @@ package svenhjol.charmony.travel_journal.client.features.travel_journal;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
 import org.lwjgl.glfw.GLFW;
 import svenhjol.charmony.core.base.Setup;
+import svenhjol.charmony.core.client.ClientRegistry;
 import svenhjol.charmony.core.events.ClientLoginPlayerCallback;
-import svenhjol.charmony.travel_journal.TravelJournalMod;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.S2CSendBookmarkToPlayer;
 
 public final class Registers extends Setup<TravelJournal> {
     public KeyMapping openJournalKey;
     public KeyMapping makeBookmarkKey;
-    public SoundEvent interactSound;
-    public SoundEvent photoSound;
 
     public Registers(TravelJournal feature) {
         super(feature);
@@ -26,10 +21,10 @@ public final class Registers extends Setup<TravelJournal> {
     @Override
     public Runnable boot() {
         return () -> {
-            interactSound = SoundEvent.createVariableRangeEvent(
-                ResourceLocation.fromNamespaceAndPath(TravelJournalMod.ID, "interact"));
-            photoSound = SoundEvent.createVariableRangeEvent(
-                ResourceLocation.fromNamespaceAndPath(TravelJournalMod.ID, "photo"));
+            var registry = ClientRegistry.forFeature(feature());
+
+            registry.packetReceiver(S2CSendBookmarkToPlayer.TYPE,
+                () -> feature().handlers::handleSendBookmarkToPlayerPacket2);
 
             openJournalKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.charmony-travel-journal.openJournal",
@@ -43,9 +38,6 @@ public final class Registers extends Setup<TravelJournal> {
             ClientLoginPlayerCallback.EVENT.register(feature().handlers::clientLogin);
             ClientTickEvents.END_CLIENT_TICK.register(feature().handlers::clientTick);
             HudRenderCallback.EVENT.register(feature().handlers::hudRender);
-
-            // Handle packets being sent from the server
-            ClientPlayNetworking.registerGlobalReceiver(S2CSendBookmarkToPlayer.TYPE, feature().handlers::handleSendBookmarkToPlayerPacket);
         };
     }
 }

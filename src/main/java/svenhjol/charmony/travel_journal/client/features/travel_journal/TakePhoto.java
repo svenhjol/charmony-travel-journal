@@ -109,7 +109,7 @@ public class TakePhoto {
         var id = bookmark.id();
 
         if (minecraft.player != null) {
-            minecraft.player.playSound(journal.registers.photoSound);
+            minecraft.player.playSound(journal.common.get().registers.photoSound.get());
         }
 
         // Move the screenshot into the custom photos folder.

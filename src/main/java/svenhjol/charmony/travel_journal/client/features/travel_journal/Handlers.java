@@ -1,7 +1,6 @@
 package svenhjol.charmony.travel_journal.client.features.travel_journal;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -12,6 +11,7 @@ import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.base.Setup;
 import svenhjol.charmony.travel_journal.TravelJournalMod;
@@ -23,7 +23,6 @@ import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmarks
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.S2CSendBookmarkToPlayer;
 
-import javax.annotation.Nullable;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -108,9 +107,38 @@ public final class Handlers extends Setup<TravelJournal> {
     }
 
     public void hudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        takePhotoHudRender(guiGraphics, deltaTracker);
+        proximityHudRender(guiGraphics, deltaTracker);
+    }
+
+    public void takePhotoHudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         if (takePhoto != null && takePhoto.isValid()) {
             takePhoto.renderCountdown(guiGraphics);
         }
+    }
+
+    public void proximityHudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        var minecraft = Minecraft.getInstance();
+        var player = minecraft.player;
+        if (player == null) return;
+
+        if (!feature().showClosestBookmark()) return;
+        if (takePhoto != null) return;
+        if (minecraft.options.hideGui) return;
+
+        var pos = player.blockPosition();
+        var bookmark = bookmarks.closest(pos).orElse(null);
+        if (bookmark == null) return;
+
+        var gui = minecraft.gui;
+        var window = minecraft.getWindow();
+        var font = gui.getFont();
+        var alpha = 240;
+        var x = 16;
+        var y = window.getGuiScaledHeight() - 16;
+        var color = 0xffffff;
+
+        guiGraphics.drawString(font, Component.literal(bookmark.name()), x, y, color | alpha);
     }
 
     public Bookmarks bookmarks() {
@@ -146,29 +174,26 @@ public final class Handlers extends Setup<TravelJournal> {
     /**
      * Handle incoming bookmark from the server.
      */
-    public void handleSendBookmarkToPlayerPacket(S2CSendBookmarkToPlayer packet, ClientPlayNetworking.Context context) {
-        context.client().execute(() -> {
-            Component message;
-            var player = context.player();
-            var bookmark = packet.bookmark();
-            var sender = packet.sender();
-            var debug = Environment.isDebugMode();
+    public void handleSendBookmarkToPlayerPacket2(Player player, S2CSendBookmarkToPlayer payload) {
+        Component message;
+        var bookmark = payload.bookmark();
+        var sender = payload.sender();
+        var debug = Environment.isDebugMode();
 
-            if (!bookmarks.exists(bookmark.id()) || debug) {
-                if (debug) {
-                    // bookmarks.add() doesn't allow duplicates so we delete it first
-                    bookmarks.remove(bookmark.id());
-                }
-
-                message = Component.translatable("gui.charmony-travel-journal.receiveFromPlayer", sender, bookmark.name());
-                bookmarks.add(bookmark);
-                savePhoto(bookmark, packet.photo());
-            } else {
-                message = Component.translatable("gui.charmony-travel-journal.alreadyHaveTheBookmark", sender, bookmark.name());
+        if (!bookmarks.exists(bookmark.id()) || debug) {
+            if (debug) {
+                // bookmarks.add() doesn't allow duplicates so we delete it first
+                bookmarks.remove(bookmark.id());
             }
 
-            player.displayClientMessage(message, false);
-        });
+            message = Component.translatable("gui.charmony-travel-journal.receiveFromPlayer", sender, bookmark.name());
+            bookmarks.add(bookmark);
+            savePhoto(bookmark, payload.photo());
+        } else {
+            message = Component.translatable("gui.charmony-travel-journal.alreadyHaveTheBookmark", sender, bookmark.name());
+        }
+
+        player.displayClientMessage(message, false);
     }
 
     public void takePhoto(Bookmark bookmark) {
@@ -286,8 +311,7 @@ public final class Handlers extends Setup<TravelJournal> {
      * While a photo isn't available, a placeholder is used.
      */
     @SuppressWarnings("ConstantValue")
-    @Nullable
-    public ResourceLocation tryLoadPhoto(Bookmark bookmark) {
+    public @NotNull ResourceLocation tryLoadPhoto(Bookmark bookmark) {
         var fallback = Resources.PHOTO_BACKGROUND;
         var id = bookmark.id();
         var minecraft = Minecraft.getInstance();

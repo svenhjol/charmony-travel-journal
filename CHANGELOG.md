@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.1
+
+- Show the name of the closest bookmark in the hud.
+- Refactor to use charmony's registry helpers.
+
 ## 1.4.0
 
 - Refactor for Charmony 1.19.0.

@@ -3,6 +3,7 @@ package svenhjol.charmony.travel_journal.common.features.travel_journal;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraft.core.BlockPos;
 import svenhjol.charmony.core.base.Log;
 import svenhjol.charmony.travel_journal.TravelJournalMod;
 import svenhjol.charmony.travel_journal.client.features.travel_journal.TravelJournal;
@@ -36,6 +37,10 @@ public class Bookmarks {
 
     public boolean isEmpty() {
         return bookmarks.isEmpty();
+    }
+
+    public Optional<Bookmark> closest(BlockPos pos) {
+        return bookmarks.stream().filter(bookmark -> bookmark.pos().distManhattan(pos) < 32).findFirst();
     }
 
     public Optional<Bookmark> get(int index) {

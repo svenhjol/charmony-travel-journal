@@ -53,7 +53,7 @@ public abstract class BaseScreen extends Screen {
     public void onClose() {
         var player = Minecraft.getInstance().player;
         if (player != null) {
-            player.playSound(journal.registers.interactSound, 0.5f, 1.0f);
+            player.playSound(journal.common.get().registers.interactSound.get(), 0.5f, 1.0f);
         }
         super.onClose();
     }
