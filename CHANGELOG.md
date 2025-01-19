@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.3
+
+- Move the show closest button to the top of the config.
+
 ## 1.4.2
 
 - Default bookmark color is now white.

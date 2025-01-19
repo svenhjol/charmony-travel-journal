@@ -20,6 +20,13 @@ public final class TravelJournal extends SidedFeature {
     public final Handlers handlers;
 
     @Configurable(
+        name = "Show closest bookmark",
+        description = "If true, the closest bookmark to the player will be shown on the hud.",
+        requireRestart = false
+    )
+    private static boolean showClosestBookmark = true;
+
+    @Configurable(
         name = "Scaled photo width",
         description = """
             Width (in pixels) to which photos will be scaled down.
@@ -63,13 +70,6 @@ public final class TravelJournal extends SidedFeature {
         requireRestart = false
     )
     private static List<String> allowReceivingFrom = new ArrayList<>();
-
-    @Configurable(
-        name = "Show closest bookmark",
-        description = "If true, the closest bookmark to the player will be shown on the hud.",
-        requireRestart = false
-    )
-    private static boolean showClosestBookmark = true;
 
     public TravelJournal(Mod mod) {
         super(mod);
