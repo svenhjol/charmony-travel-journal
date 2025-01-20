@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.4
+
+- Configurable distance to show the closest bookmark.
+
 ## 1.4.3
 
 - Move the show closest button to the top of the config.

@@ -3,7 +3,6 @@ package svenhjol.charmony.travel_journal.common.features.travel_journal;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.minecraft.core.BlockPos;
 import svenhjol.charmony.core.base.Log;
 import svenhjol.charmony.travel_journal.TravelJournalMod;
 import svenhjol.charmony.travel_journal.client.features.travel_journal.TravelJournal;
@@ -14,7 +13,7 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Bookmarks {
+public final class Bookmarks {
     private static final Log LOGGER = new Log(TravelJournalMod.ID, "Bookmarks");
     private static final Map<File, Bookmarks> instances = new HashMap<>();
     private final List<Bookmark> bookmarks = new LinkedList<>();
@@ -31,20 +30,16 @@ public class Bookmarks {
         this.session = session;
     }
 
+    public List<Bookmark> all() {
+        return bookmarks;
+    }
+
     public int size() {
         return bookmarks.size();
     }
 
     public boolean isEmpty() {
         return bookmarks.isEmpty();
-    }
-
-    public Optional<Bookmark> closest(BlockPos pos) {
-        return bookmarks.stream().filter(bookmark -> bookmark.pos().distManhattan(pos) < 32).min((a, b) -> {
-            var ap = a.pos().distManhattan(pos);
-            var bp = b.pos().distManhattan(pos);
-            return Integer.compare(ap, bp);
-        });
     }
 
     public Optional<Bookmark> get(int index) {
@@ -114,9 +109,13 @@ public class Bookmarks {
 
     public Bookmarks remove(UUID id) {
         get(id).ifPresent(bookmark -> {
-            TravelJournal.feature().handlers.deletePhoto(bookmark);
+            feature().handlers.deletePhoto(bookmark);
             bookmarks.remove(bookmark);
         });
         return save();
+    }
+
+    private TravelJournal feature() {
+        return TravelJournal.feature();
     }
 }

@@ -27,6 +27,15 @@ public final class TravelJournal extends SidedFeature {
     private static boolean showClosestBookmark = true;
 
     @Configurable(
+        name = "Range of closest bookmark",
+        description = """
+            Distance (in blocks) at which the name of the closest bookmark will be shown on the hud.
+            This has no effect if "Show closest bookmark" is set to false.""",
+        requireRestart = false
+    )
+    private static int closestBookmarkDistance = 32;
+
+    @Configurable(
         name = "Scaled photo width",
         description = """
             Width (in pixels) to which photos will be scaled down.
@@ -100,5 +109,9 @@ public final class TravelJournal extends SidedFeature {
 
     public boolean showClosestBookmark() {
         return showClosestBookmark;
+    }
+
+    public int closestBookmarkDistance() {
+        return Mth.clamp(closestBookmarkDistance, 1, 256);
     }
 }

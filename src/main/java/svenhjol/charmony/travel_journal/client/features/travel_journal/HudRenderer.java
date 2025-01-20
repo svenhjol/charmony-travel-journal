@@ -48,7 +48,7 @@ public class HudRenderer extends BaseHudRenderer {
 
     @Override
     protected boolean isValid(Player player) {
-        var bookmark = feature().handlers.bookmarks().closest(player.blockPosition()).orElse(null);
+        var bookmark = feature().handlers.closestBookmark(player.blockPosition()).orElse(null);
         if (bookmark != null) {
             this.bookmark = bookmark;
         }

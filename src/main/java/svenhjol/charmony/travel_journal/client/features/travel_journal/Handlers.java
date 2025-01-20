@@ -6,6 +6,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -370,6 +371,23 @@ public final class Handlers extends Setup<TravelJournal> {
 
     public File photosDir() {
         return new File(sessionDir() + SEP + "photos");
+    }
+
+    /**
+     * Get the closest bookmark to the given position.
+     * @param pos Position to check.
+     * @return Closest bookmark or empty optional.
+     */
+    public Optional<Bookmark> closestBookmark(BlockPos pos) {
+        var distance = feature().closestBookmarkDistance();
+
+        return bookmarks.all().stream()
+            .filter(bookmark -> bookmark.pos().distManhattan(pos) < distance)
+            .min((a, b) -> {
+                var ap = a.pos().distManhattan(pos);
+                var bp = b.pos().distManhattan(pos);
+                return Integer.compare(ap, bp);
+            });
     }
 
     /**
