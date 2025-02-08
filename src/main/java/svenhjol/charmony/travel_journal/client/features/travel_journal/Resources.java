@@ -17,6 +17,8 @@ public final class Resources {
     public static final Component NEW_BOOKMARK = Component.translatable("gui.charmony-travel-journal.newBookmark");
     public static final Component SEND_TO_PLAYER = Component.translatable("gui.charmony-travel-journal.sendToPlayer");
     public static final Component TRAVEL_JOURNAL = Component.translatable("gui.charmony-travel-journal.travelJournal");
+    public static final Component NEXT_PAGE = Component.translatable("gui.charmony-travel-journal.nextPage");
+    public static final Component PREVIOUS_PAGE = Component.translatable("gui.charmony-travel-journal.previousPage");
     public static final String AUTHOR = "gui.charmony-travel-journal.author";
     public static final String DIMENSION = "gui.charmony-travel-journal.dimension";
     public static final String POSITION = "gui.charmony-travel-journal.position";

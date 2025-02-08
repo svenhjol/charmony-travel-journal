@@ -88,7 +88,7 @@ public final class TravelJournal extends SidedFeature {
     }
 
     public static TravelJournal feature() {
-        return TravelJournalMod.instance().sidedFeature(TravelJournal.class);
+        return Mod.getSidedFeature(TravelJournal.class);
     }
 
     public int scaledPhotoWidth() {

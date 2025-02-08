@@ -5,9 +5,13 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.network.chat.Component;
+import svenhjol.charmony.core.client.CoreButtons;
+import svenhjol.charmony.core.client.CoreResources;
 import svenhjol.charmony.travel_journal.TravelJournalMod;
 
 public class Buttons {
+    public static final WidgetSprites NEXT_PAGE_BUTTON = makeButton("next_page");
+    public static final WidgetSprites PREVIOUS_PAGE_BUTTON = makeButton("previous_page");
     public static final WidgetSprites SEND_TO_PLAYER_BUTTON = makeButtonWithDisabled("send_to_player");
 
     public static class NewWhenEmptyButton extends Button {
@@ -39,6 +43,40 @@ public class Buttons {
         public SendToPlayerButton(int x, int y, OnPress onPress) {
             super(x, y, WIDTH, HEIGHT, SPRITES, onPress);
             setTooltip(Tooltip.create(TEXT));
+        }
+    }
+
+    public static class NextPageButton extends ImageButton {
+        public static int WIDTH = 20;
+        public static int HEIGHT = 19;
+        static WidgetSprites SPRITES;
+        static Component TEXT;
+
+        public NextPageButton(int x, int y, Button.OnPress onPress) {
+            super(x, y, WIDTH, HEIGHT, SPRITES, onPress);
+            this.setTooltip(Tooltip.create(TEXT));
+        }
+
+        static {
+            SPRITES = Buttons.NEXT_PAGE_BUTTON;
+            TEXT = Resources.NEXT_PAGE;
+        }
+    }
+
+    public static class PreviousPageButton extends ImageButton {
+        public static int WIDTH = 20;
+        public static int HEIGHT = 19;
+        static WidgetSprites SPRITES;
+        static Component TEXT;
+
+        public PreviousPageButton(int x, int y, Button.OnPress onPress) {
+            super(x, y, WIDTH, HEIGHT, SPRITES, onPress);
+            this.setTooltip(Tooltip.create(TEXT));
+        }
+
+        static {
+            SPRITES = Buttons.PREVIOUS_PAGE_BUTTON;
+            TEXT = Resources.PREVIOUS_PAGE;
         }
     }
 

@@ -6,7 +6,7 @@ import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.enums.Side;
 import svenhjol.charmony.travel_journal.TravelJournalMod;
 
-@FeatureDefinition(side = Side.Common, showInConfig = false, description = """
+@FeatureDefinition(side = Side.Common, canBeDisabledInConfig = false, description = """
     A journal that holds bookmarks to places of interest.""")
 public final class TravelJournal extends SidedFeature {
     public final Registers registers;
@@ -21,6 +21,6 @@ public final class TravelJournal extends SidedFeature {
     }
 
     public static TravelJournal feature() {
-        return TravelJournalMod.instance().sidedFeature(TravelJournal.class);
+        return Mod.getSidedFeature(TravelJournal.class);
     }
 }

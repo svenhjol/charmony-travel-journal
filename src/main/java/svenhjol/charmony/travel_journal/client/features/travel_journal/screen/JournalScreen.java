@@ -201,11 +201,11 @@ public class JournalScreen extends BaseScreen {
         
         if (!renderedButtons) {
             if (page > 1) {
-                addRenderableWidget(new CoreButtons.PreviousPageButton(midX - 110, 180,
+                addRenderableWidget(new Buttons.PreviousPageButton(midX - 110, 180,
                     b -> journal.handlers.openJournal(page - 1)));
             }
             if (page < pages || index < size) {
-                addRenderableWidget(new CoreButtons.NextPageButton(midX + 80, 180,
+                addRenderableWidget(new Buttons.NextPageButton(midX + 80, 180,
                     b -> journal.handlers.openJournal(page + 1)));
             }
         }
