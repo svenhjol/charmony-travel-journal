@@ -6,7 +6,6 @@ import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.enums.Side;
-import svenhjol.charmony.travel_journal.TravelJournalMod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +87,7 @@ public final class TravelJournal extends SidedFeature {
     }
 
     public static TravelJournal feature() {
-        return TravelJournalMod.instance().sidedFeature(TravelJournal.class);
+        return Mod.getSidedFeature(TravelJournal.class);
     }
 
     public int scaledPhotoWidth() {
