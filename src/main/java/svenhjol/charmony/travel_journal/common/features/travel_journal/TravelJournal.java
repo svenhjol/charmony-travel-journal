@@ -4,7 +4,6 @@ import svenhjol.charmony.core.annotations.FeatureDefinition;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.SidedFeature;
 import svenhjol.charmony.core.enums.Side;
-import svenhjol.charmony.travel_journal.TravelJournalMod;
 
 @FeatureDefinition(side = Side.Common, canBeDisabledInConfig = false, description = """
     A journal that holds bookmarks to places of interest.""")
