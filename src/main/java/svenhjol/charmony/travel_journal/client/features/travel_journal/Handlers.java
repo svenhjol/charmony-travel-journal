@@ -1,6 +1,8 @@
 package svenhjol.charmony.travel_journal.client.features.travel_journal;
 
 import com.mojang.blaze3d.platform.NativeImage;
+import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
+import net.fabricmc.fabric.api.client.rendering.v1.LayeredDrawerWrapper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -107,13 +109,21 @@ public final class Handlers extends Setup<TravelJournal> {
         sentPlayerSettings = false;
     }
 
-    public void hudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        var minecraft = Minecraft.getInstance();
-        takePhotoHudRender(guiGraphics, deltaTracker);
+    public void hudRender(LayeredDrawerWrapper drawers) {
+        drawers.attachLayerAfter(
+            IdentifiedLayer.MISC_OVERLAYS,
+            TravelJournalMod.id("take_photo"),
+            (this::takePhotoHudRender));
 
-        if (feature().showClosestBookmark() && takePhoto == null && !minecraft.options.hideGui) {
-            feature().registers.hudRenderer.render(guiGraphics, deltaTracker);
-        }
+        drawers.attachLayerAfter(
+            IdentifiedLayer.MISC_OVERLAYS,
+            TravelJournalMod.id("show_closest_bookmark"),
+            ((guiGraphics, deltaTracker) -> {
+                var minecraft = Minecraft.getInstance();
+                if (feature().showClosestBookmark() && takePhoto == null && !minecraft.options.hideGui) {
+                    feature().registers.hudRenderer.render(guiGraphics, deltaTracker);
+                }
+            }));
     }
 
     public void takePhotoHudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
@@ -320,7 +330,7 @@ public final class Handlers extends Setup<TravelJournal> {
 
             var stream = new FileInputStream(file);
             var photo = NativeImage.read(stream);
-            var dynamicTexture = new DynamicTexture(photo);
+            var dynamicTexture = new DynamicTexture(() -> "Photo for bookmark", photo);
             var photoId = TravelJournalMod.id("bookmark_photo_" + bookmark.id());
             minecraft.getTextureManager().register(photoId, dynamicTexture);
             stream.close();

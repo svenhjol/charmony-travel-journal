@@ -1,6 +1,7 @@
 package svenhjol.charmony.travel_journal.client.features.travel_journal;
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.KeyMapping;
 import org.lwjgl.glfw.GLFW;
@@ -38,7 +39,7 @@ public final class Registers extends Setup<TravelJournal> {
                 "key.categories.misc"));
 
             ClientLoginPlayerCallback.EVENT.register(feature().handlers::clientLogin);
-            HudRenderCallback.EVENT.register(feature().handlers::hudRender);
+            HudLayerRegistrationCallback.EVENT.register(feature().handlers::hudRender);
             PlayerTickCallback.EVENT.register(feature().handlers::playerTick);
         };
     }
