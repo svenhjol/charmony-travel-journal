@@ -120,16 +120,13 @@ public class JournalScreen extends BaseScreen {
         var pose = guiGraphics.pose();
         
         var resource = journal.handlers.tryLoadPhoto(bookmark);
-        if (resource != null) {
-            var top = 127;
-            var left = -168 + (x * 272);
-            pose.pushPose();
-            pose.translate(midX - 40f, 40f, 1.0f);
-            pose.scale(0.42f, 0.24f, 1.0f);
-            RenderSystem.setShaderTexture(0, resource);
-            guiGraphics.blit(RenderType::guiTextured, resource, left, top, 0.0f, 0.0f, 256, 256, 256, 256);
-            pose.popPose();
-        }
+        var top = 127;
+        var left = -168 + (x * 272);
+        pose.pushPose();
+        pose.translate(midX - 40f, 40f, 1.0f);
+        pose.scale(0.42f, 0.24f, 1.0f);
+        guiGraphics.blit(RenderType::guiTextured, resource, left, top, 0.0f, 0.0f, 256, 256, 256, 256);
+        pose.popPose();
     }
     
     private void renderPhotoDescriptionHover(GuiGraphics guiGraphics, Bookmark bookmark, int mouseX, int mouseY, int x) {

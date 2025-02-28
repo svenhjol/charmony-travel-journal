@@ -98,17 +98,14 @@ public class BookmarkScreen extends BaseScreen {
     private void renderPhoto(GuiGraphics guiGraphics) {
         var pose = guiGraphics.pose();
         var resource = journal.handlers.tryLoadPhoto(bookmark.toImmutable());
-        
-        if (resource != null) {
-            pose.pushPose();
-            var top = 24; // This is scaled by pose.scale()
-            var left = -169; // This is scaled by pose.scale()
-            pose.translate(midX - 40f, 33f, 1.0f);
-            pose.scale(0.41f, 0.22f, 1.0f);
-            RenderSystem.setShaderTexture(0, resource);
-            guiGraphics.blit(RenderType::guiTextured, resource, left, top, 0.0f, 0.0f, 256, 256, 256, 256);
-            pose.popPose();
-        }
+
+        pose.pushPose();
+        var top = 24; // This is scaled by pose.scale()
+        var left = -169; // This is scaled by pose.scale()
+        pose.translate(midX - 40f, 33f, 1.0f);
+        pose.scale(0.41f, 0.22f, 1.0f);
+        guiGraphics.blit(RenderType::guiTextured, resource, left, top, 0.0f, 0.0f, 256, 256, 256, 256);
+        pose.popPose();
     }
     
     private void renderDetails(GuiGraphics guiGraphics) {
