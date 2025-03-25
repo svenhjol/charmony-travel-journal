@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.0
+
+- Update for Minecraft 1.21.5.
+
 ## 1.4.4
 
 - Configurable distance to show the closest bookmark.
