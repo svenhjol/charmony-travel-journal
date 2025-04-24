@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.2
+
+- Update icon.
+
 ## 1.7.1
 
 - Update access.
