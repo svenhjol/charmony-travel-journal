@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public final class Bookmarks {
+public class Bookmarks {
     private static final Log LOGGER = new Log(TravelJournalMod.ID, "Bookmarks");
     private static final Map<File, Bookmarks> instances = new HashMap<>();
     private final List<Bookmark> bookmarks = new LinkedList<>();

@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public final class Networking extends Setup<TravelJournal> {
+public class Networking extends Setup<TravelJournal> {
     public Networking(TravelJournal feature) {
         super(feature);
     }

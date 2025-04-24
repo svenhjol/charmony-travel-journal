@@ -3,7 +3,7 @@ package svenhjol.charmony.travel_journal.client.features.travel_journal;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Registers;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.TravelJournal;
 
-public final class Common {
+public class Common {
     public TravelJournal feature;
     public Registers registers;
 

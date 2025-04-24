@@ -10,7 +10,7 @@ import svenhjol.charmony.travel_journal.common.features.travel_journal.Networkin
 
 import java.util.function.Supplier;
 
-public final class Registers extends Setup<TravelJournal> {
+public class Registers extends Setup<TravelJournal> {
     public Supplier<SoundEvent> interactSound;
     public Supplier<SoundEvent> photoSound;
 

@@ -37,7 +37,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.*;
 
 @SuppressWarnings("unused")
-public final class Handlers extends Setup<TravelJournal> {
+public class Handlers extends Setup<TravelJournal> {
     private static final String SEP = File.separator;
     private static final String CHARMONY_BASE = "charmony";
     private static final String TRAVEL_JOURNAL_BASE = "travel_journal";

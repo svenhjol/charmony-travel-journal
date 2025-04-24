@@ -2,7 +2,6 @@ package svenhjol.charmony.travel_journal.client.features.travel_journal;
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.KeyMapping;
 import org.lwjgl.glfw.GLFW;
 import svenhjol.charmony.core.base.Setup;
@@ -11,7 +10,7 @@ import svenhjol.charmony.core.events.ClientLoginPlayerCallback;
 import svenhjol.charmony.core.events.PlayerTickCallback;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.S2CSendBookmarkToPlayer;
 
-public final class Registers extends Setup<TravelJournal> {
+public class Registers extends Setup<TravelJournal> {
     public KeyMapping openJournalKey;
     public KeyMapping makeBookmarkKey;
     public final HudRenderer hudRenderer;

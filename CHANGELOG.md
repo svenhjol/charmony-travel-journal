@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.7.1
+
+- Update access.
+
 ## 1.7.0
 
 - Update for Minecraft 1.21.5.

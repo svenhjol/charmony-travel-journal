@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public final class Handlers extends Setup<TravelJournal> {
+public class Handlers extends Setup<TravelJournal> {
     private final Map<UUID, Boolean> playerCanReceiveBookmarks = new HashMap<>();
     private final Map<UUID, List<String>> playerAllowBookmarksFrom = new HashMap<>();
 
