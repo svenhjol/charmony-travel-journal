@@ -6,8 +6,8 @@ import net.minecraft.client.KeyMapping;
 import org.lwjgl.glfw.GLFW;
 import svenhjol.charmony.core.base.Setup;
 import svenhjol.charmony.core.client.ClientRegistry;
-import svenhjol.charmony.core.events.ClientLoginPlayerCallback;
-import svenhjol.charmony.core.events.PlayerTickCallback;
+import svenhjol.charmony.api.events.ClientLoginPlayerCallback;
+import svenhjol.charmony.api.events.PlayerTickCallback;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.S2CSendBookmarkToPlayer;
 
 public class Registers extends Setup<TravelJournal> {
