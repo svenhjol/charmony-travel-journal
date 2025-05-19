@@ -3,7 +3,7 @@ package svenhjol.charmony.travel_journal.common.features.travel_journal;
 import net.minecraft.sounds.SoundEvent;
 import svenhjol.charmony.core.base.Setup;
 import svenhjol.charmony.core.common.CommonRegistry;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.Side;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.C2SPlayerSettings;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.C2SSendBookmarkToPlayer;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.S2CSendBookmarkToPlayer;

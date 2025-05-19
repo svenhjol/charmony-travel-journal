@@ -1,11 +1,11 @@
 package svenhjol.charmony.travel_journal.client.features.travel_journal;
 
 import net.minecraft.util.Mth;
-import svenhjol.charmony.core.annotations.Configurable;
-import svenhjol.charmony.core.annotations.FeatureDefinition;
+import svenhjol.charmony.api.core.Configurable;
+import svenhjol.charmony.api.core.FeatureDefinition;
 import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.core.base.SidedFeature;
-import svenhjol.charmony.core.enums.Side;
+import svenhjol.charmony.api.core.Side;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import java.util.function.Supplier;
 
 @FeatureDefinition(side = Side.Client, description = """
     A journal that holds bookmarks to places of interest.""")
+@SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
 public final class TravelJournal extends SidedFeature {
     public final Supplier<Common> common;
     public final Registers registers;
