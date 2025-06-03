@@ -3,6 +3,7 @@ package svenhjol.charmony.travel_journal.client.features.travel_journal;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.client.gui.GuiGraphics;
+import svenhjol.charmony.api.core.Color;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmark;
 
 import javax.imageio.ImageIO;
@@ -72,6 +73,7 @@ public class TakePhoto {
             minecraft.gameDirectory,
             bookmark.id() + ".png",
             minecraft.getMainRenderTarget(),
+            1,
             component -> {
                 journal.log().debug("Photo taken for bookmark " + bookmark.id());
                 finish();
@@ -94,11 +96,12 @@ public class TakePhoto {
         }
 
         if (!str.isEmpty()) {
+            var color = new Color(0xffffff);
             var pose = guiGraphics.pose();
-            pose.pushPose();
-            pose.scale(4.0f, 4.0f, 1.0f);
-            guiGraphics.drawCenteredString(minecraft.font, str, x, y, 0xffffff);
-            pose.popPose();
+            pose.pushMatrix();
+            pose.scale(4.0f, 4.0f);
+            guiGraphics.drawCenteredString(minecraft.font, str, x, y, color.getArgbColor());
+            pose.popMatrix();
         }
     }
 

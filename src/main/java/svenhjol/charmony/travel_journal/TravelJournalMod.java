@@ -1,9 +1,8 @@
 package svenhjol.charmony.travel_journal;
 
-import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.api.core.ModDefinition;
-import svenhjol.charmony.core.base.Mod;
 import svenhjol.charmony.api.core.Side;
+import svenhjol.charmony.core.base.Mod;
 
 @ModDefinition(id = TravelJournalMod.ID, sides = {Side.Common, Side.Client},
     name = "Travel journal",
@@ -17,9 +16,5 @@ public class TravelJournalMod extends Mod {
             instance = new TravelJournalMod();
         }
         return instance;
-    }
-
-    public static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(ID, path);
     }
 }

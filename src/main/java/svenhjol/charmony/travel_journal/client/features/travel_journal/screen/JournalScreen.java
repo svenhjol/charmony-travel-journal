@@ -1,19 +1,18 @@
 package svenhjol.charmony.travel_journal.client.features.travel_journal.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import svenhjol.charmony.api.core.Color;
 import svenhjol.charmony.core.client.CoreButtons;
-import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmark;
+import svenhjol.charmony.core.helpers.TextComponentHelper;
 import svenhjol.charmony.travel_journal.client.features.travel_journal.Buttons;
-import svenhjol.charmony.travel_journal.client.features.travel_journal.TravelJournal;
 import svenhjol.charmony.travel_journal.client.features.travel_journal.Resources;
-import svenhjol.charmony.travel_journal.helpers.TextHelper;
+import svenhjol.charmony.travel_journal.client.features.travel_journal.TravelJournal;
+import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmark;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
 public class JournalScreen extends BaseScreen {
     private static final String DATE_FORMAT = "dd-MMM-yy";
@@ -92,28 +91,28 @@ public class JournalScreen extends BaseScreen {
         var timestamp = bookmark.timestamp();
         var date = new Date(timestamp * 1000L);
         var format = new SimpleDateFormat(DATE_FORMAT);
-        var titleColor = 0x444444;
-        var extraColor = 0xa7a7a7;
+        var titleColor = new Color(0x444444);
+        var extraColor = new Color(0xa7a7a7);
         var maxTitleLength = 21;
         var left = -70 + (x * 114);
         var top = 25;
         
         // Render top text.
-        pose.pushPose();
-        pose.translate(midX - 40f, 20f, 1.0f);
-        pose.scale(1.0f, 1.0f, 1.0f);
+        pose.pushMatrix();
+        pose.translate(midX - 40f, 20f);
+        pose.scale(1.0f, 1.0f);
 
         if (name.length() > maxTitleLength) {
             name = name.substring(0, maxTitleLength - 1);
         }
 
-        guiGraphics.drawString(font, Component.literal(name), left, top, titleColor, false);
+        guiGraphics.drawString(font, Component.literal(name), left, top, titleColor.getArgbColor(), false);
 
         if (timestamp >= 0) {
             top += 12;
-            guiGraphics.drawString(font, Component.literal(format.format(date)), left, top, extraColor, false);
+            guiGraphics.drawString(font, Component.literal(format.format(date)), left, top, extraColor.getArgbColor(), false);
         }
-        pose.popPose();
+        pose.popMatrix();
     }
     
     private void renderPhoto(GuiGraphics guiGraphics, Bookmark bookmark, int x) {
@@ -122,11 +121,11 @@ public class JournalScreen extends BaseScreen {
         var resource = journal.handlers.tryLoadPhoto(bookmark);
         var top = 127;
         var left = -168 + (x * 272);
-        pose.pushPose();
-        pose.translate(midX - 40f, 40f, 1.0f);
-        pose.scale(0.42f, 0.24f, 1.0f);
-        guiGraphics.blit(RenderType::guiTextured, resource, left, top, 0.0f, 0.0f, 256, 256, 256, 256);
-        pose.popPose();
+        pose.pushMatrix();
+        pose.translate(midX - 40f, 40f);
+        pose.scale(0.42f, 0.24f);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, resource, left, top, 0.0f, 0.0f, 256, 256, 256, 256);
+        pose.popMatrix();
     }
     
     private void renderPhotoDescriptionHover(GuiGraphics guiGraphics, Bookmark bookmark, int mouseX, int mouseY, int x) {
@@ -140,7 +139,7 @@ public class JournalScreen extends BaseScreen {
         
         if (mouseX >= x1 && mouseX <= x2
             && mouseY >= y1 && mouseY <= y2) {
-            guiGraphics.renderTooltip(font, TextHelper.wrap(description), Optional.empty(), mouseX, mouseY);
+            guiGraphics.setComponentTooltipForNextFrame(font, TextComponentHelper.wrap(description), mouseX, mouseY);
         }
     }
     
@@ -150,14 +149,14 @@ public class JournalScreen extends BaseScreen {
         var left = -88 + (x * 138);
         var color = getDetailsColor(bookmark);;
         
-        pose.pushPose();
-        pose.translate(midX - 25f, 20f, 1.0f);
-        pose.scale(0.82f, 0.82f, 1.0f);
+        pose.pushMatrix();
+        pose.translate(midX - 25f, 20f);
+        pose.scale(0.82f, 0.82f);
         
-        var positionText = TextHelper.positionAsText(bookmark.pos());
+        var positionText = TextComponentHelper.positionAsText(bookmark.pos());
 
-        TextHelper.drawCenteredString(guiGraphics, font, positionText, left + 50, top + 12, color, false);
-        pose.popPose();
+        TextComponentHelper.drawCenteredString(guiGraphics, font, positionText, left + 50, top + 12, color.getArgbColor(), false);
+        pose.popMatrix();
     }
 
     private void renderDimension(GuiGraphics guiGraphics, Bookmark bookmark, int x) {
@@ -166,13 +165,13 @@ public class JournalScreen extends BaseScreen {
         var left = -82 + (x * 114);
         var color = getDetailsColor(bookmark);
 
-        pose.pushPose();
-        pose.translate(midX - 25f, 20f, 1.0f);
-        pose.scale(1.0f, 1.0f, 1.0f);
+        pose.pushMatrix();
+        pose.translate(midX - 25f, 20f);
+        pose.scale(1.0f, 1.0f);
 
-        var dimensionText = TextHelper.dimensionAsText(bookmark.dimension());
-        TextHelper.drawCenteredString(guiGraphics, font, dimensionText, left + 50, top, color, false);
-        pose.popPose();
+        var dimensionText = TextComponentHelper.dimensionAsText(bookmark.dimension());
+        TextComponentHelper.drawCenteredString(guiGraphics, font, dimensionText, left + 50, top, color.getArgbColor(), false);
+        pose.popMatrix();
     }
     
     private void renderDetailsButton(Bookmark bookmark, int x) {

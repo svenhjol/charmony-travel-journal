@@ -1,8 +1,6 @@
 package svenhjol.charmony.travel_journal.client.features.travel_journal;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
-import net.fabricmc.fabric.api.client.rendering.v1.LayeredDrawerWrapper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
@@ -11,13 +9,15 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
+import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.base.Setup;
-import svenhjol.charmony.travel_journal.TravelJournalMod;
 import svenhjol.charmony.travel_journal.client.features.travel_journal.screen.BookmarkScreen;
 import svenhjol.charmony.travel_journal.client.features.travel_journal.screen.JournalScreen;
 import svenhjol.charmony.travel_journal.client.features.travel_journal.screen.SendBookmarkScreen;
@@ -109,21 +109,13 @@ public class Handlers extends Setup<TravelJournal> {
         sentPlayerSettings = false;
     }
 
-    public void hudRender(LayeredDrawerWrapper drawers) {
-        drawers.attachLayerAfter(
-            IdentifiedLayer.MISC_OVERLAYS,
-            TravelJournalMod.id("take_photo"),
-            (this::takePhotoHudRender));
+    public void hudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        takePhotoHudRender(guiGraphics, deltaTracker);
 
-        drawers.attachLayerAfter(
-            IdentifiedLayer.MISC_OVERLAYS,
-            TravelJournalMod.id("show_closest_bookmark"),
-            ((guiGraphics, deltaTracker) -> {
-                var minecraft = Minecraft.getInstance();
-                if (feature().showClosestBookmark() && takePhoto == null && !minecraft.options.hideGui) {
-                    feature().registers.hudRenderer.render(guiGraphics, deltaTracker);
-                }
-            }));
+        var minecraft = Minecraft.getInstance();
+        if (feature().showClosestBookmark() && takePhoto == null && !minecraft.options.hideGui) {
+            feature().registers.hudRenderer.render(guiGraphics, deltaTracker);
+        }
     }
 
     public void takePhotoHudRender(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
@@ -177,11 +169,11 @@ public class Handlers extends Setup<TravelJournal> {
                 bookmarks.remove(bookmark.id());
             }
 
-            message = Component.translatable("gui.charmony-travel-journal.receiveFromPlayer", sender, bookmark.name());
+            message = Component.translatable("gui.charmony.receiveFromPlayer", sender, bookmark.name());
             bookmarks.add(bookmark);
             savePhoto(bookmark, payload.photo());
         } else {
-            message = Component.translatable("gui.charmony-travel-journal.alreadyHaveTheBookmark", sender, bookmark.name());
+            message = Component.translatable("gui.charmony.alreadyHaveTheBookmark", sender, bookmark.name());
         }
 
         player.displayClientMessage(message, false);
@@ -331,7 +323,7 @@ public class Handlers extends Setup<TravelJournal> {
             var stream = new FileInputStream(file);
             var photo = NativeImage.read(stream);
             var dynamicTexture = new DynamicTexture(() -> "Photo for bookmark", photo);
-            var photoId = TravelJournalMod.id("bookmark_photo_" + bookmark.id());
+            var photoId = Charmony.id("bookmark_photo_" + bookmark.id());
             minecraft.getTextureManager().register(photoId, dynamicTexture);
             stream.close();
 
@@ -385,14 +377,16 @@ public class Handlers extends Setup<TravelJournal> {
 
     /**
      * Get the closest bookmark to the given position.
+     * @param dimension Dimension to check.
      * @param pos Position to check.
      * @return Closest bookmark or empty optional.
      */
-    public Optional<Bookmark> closestBookmark(BlockPos pos) {
+    public Optional<Bookmark> closestBookmark(ResourceKey<Level> dimension, BlockPos pos) {
         var distance = feature().closestBookmarkDistance();
 
         return bookmarks.all().stream()
             .filter(bookmark -> bookmark.pos().distManhattan(pos) < distance)
+            .filter(bookmark -> bookmark.dimension().equals(dimension))
             .min((a, b) -> {
                 var ap = a.pos().distManhattan(pos);
                 var bp = b.pos().distManhattan(pos);

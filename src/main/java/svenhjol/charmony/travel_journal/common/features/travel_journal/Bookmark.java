@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.Level;
-import svenhjol.charmony.travel_journal.helpers.BiomeHelper;
+import svenhjol.charmony.core.helpers.WorldHelper;
 
 import java.util.UUID;
 
@@ -18,7 +18,7 @@ public record Bookmark(
     public static Bookmark create(Player player) {
         return new Bookmark(
             UUID.randomUUID(),
-            BiomeHelper.biomeName(player),
+            WorldHelper.biomeName(player),
             player.level().dimension(),
             player.blockPosition(),
             player.getScoreboardName(),

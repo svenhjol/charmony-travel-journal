@@ -5,9 +5,7 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.network.chat.Component;
-import svenhjol.charmony.core.client.CoreButtons;
-import svenhjol.charmony.core.client.CoreResources;
-import svenhjol.charmony.travel_journal.TravelJournalMod;
+import svenhjol.charmony.core.Charmony;
 
 public class Buttons {
     public static final WidgetSprites NEXT_PAGE_BUTTON = makeButton("next_page");
@@ -82,14 +80,14 @@ public class Buttons {
 
     static WidgetSprites makeButton(String name) {
         return new WidgetSprites(
-            TravelJournalMod.id("widget/buttons/" + name + "_button"),
-            TravelJournalMod.id("widget/buttons/" + name + "_button_highlighted"));
+            Charmony.id("widget/buttons/" + name + "_button"),
+            Charmony.id("widget/buttons/" + name + "_button_highlighted"));
     }
 
     static WidgetSprites makeButtonWithDisabled(String name) {
         return new WidgetSprites(
-            TravelJournalMod.id("widget/buttons/" + name + "_button"),
-            TravelJournalMod.id("widget/buttons/" + name + "_button_disabled"),
-            TravelJournalMod.id("widget/buttons/" + name + "_button_highlighted"));
+            Charmony.id("widget/buttons/" + name + "_button"),
+            Charmony.id("widget/buttons/" + name + "_button_disabled"),
+            Charmony.id("widget/buttons/" + name + "_button_highlighted"));
     }
 }

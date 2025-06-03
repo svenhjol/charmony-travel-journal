@@ -9,19 +9,16 @@
   "authors": [
     "svenhjol"
   ],
-  "icon": "assets/charmony-travel-journal/textures/gui/sprites/icon.png",
+  "icon": "assets/charmony/textures/gui/sprites/charmony-travel-journal.png",
   "license": "MIT",
   "environment": "*",
   "accessWidener": "charmony-travel-journal.accesswidener",
   "entrypoints": {
     "main": [
-        "svenhjol.charmony.travel_journal.common.CommonInitializer"
+      "svenhjol.charmony.travel_journal.common.CommonInitializer"
     ],
     "client": [
-        "svenhjol.charmony.travel_journal.client.ClientInitializer"
-    ],
-    "modmenu": [
-        "svenhjol.charmony.travel_journal.integration.ModMenuPlugin"
+      "svenhjol.charmony.travel_journal.client.ClientInitializer"
     ]
   },
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.0
+
+- Update for 1.21.6.
+- Fix overlay showing position in other dimensions.
+
 ## 1.9.0
 
 - Update for Charmony and API.

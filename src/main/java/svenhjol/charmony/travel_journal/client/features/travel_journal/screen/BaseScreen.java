@@ -4,14 +4,15 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import svenhjol.charmony.travel_journal.client.features.travel_journal.TravelJournal;
+import svenhjol.charmony.api.core.Color;
+import svenhjol.charmony.core.helpers.TextComponentHelper;
 import svenhjol.charmony.travel_journal.client.features.travel_journal.Resources;
+import svenhjol.charmony.travel_journal.client.features.travel_journal.TravelJournal;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmark;
-import svenhjol.charmony.travel_journal.helpers.TextHelper;
 
 public abstract class BaseScreen extends Screen {
     protected final TravelJournal journal;
@@ -46,7 +47,7 @@ public abstract class BaseScreen extends Screen {
         super.renderBackground(guiGraphics, mouseX, mouseY, delta);
         var x = (width - backgroundWidth) / 2;
         var y = 5;
-        guiGraphics.blit(RenderType::guiTextured, getBackgroundTexture(), x, y, 0.0f, 0.0f, backgroundWidth, backgroundHeight, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, getBackgroundTexture(), x, y, 0.0f, 0.0f, backgroundWidth, backgroundHeight, 256, 256);
     }
     
     @Override
@@ -59,8 +60,9 @@ public abstract class BaseScreen extends Screen {
     }
     
     protected void renderTitle(GuiGraphics guiGraphics, int x, int y) {
+        var color = new Color(0xa04030);
         MutableComponent title = (MutableComponent)getTitle();
-        TextHelper.drawCenteredString(guiGraphics, font, title.withStyle(ChatFormatting.BOLD), x, y, 0xa04030, false);
+        TextComponentHelper.drawCenteredString(guiGraphics, font, title.withStyle(ChatFormatting.BOLD), x, y, color.getArgbColor(), false);
     }
     
     protected ResourceLocation getBackgroundTexture() {
@@ -71,7 +73,7 @@ public abstract class BaseScreen extends Screen {
         return Minecraft.getInstance();
     }
 
-    protected int getDetailsColor(Bookmark bookmark) {
-        return journal.handlers.belongsToPlayer(bookmark) ? 0x802010 : 0x606060;
+    protected Color getDetailsColor(Bookmark bookmark) {
+        return new Color(journal.handlers.belongsToPlayer(bookmark) ? 0x802010 : 0x606060);
     }
 }

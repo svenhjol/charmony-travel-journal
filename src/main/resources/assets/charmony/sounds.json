@@ -1,0 +1,28 @@
+{
+  "interact": {
+    "sounds": [
+      {
+        "name": "charmony:interact1",
+        "volume": 1.0
+      },
+      {
+        "name": "charmony:interact2",
+        "volume": 1.0
+      },
+      {
+        "name": "charmony:interact3",
+        "volume": 1.0
+      }
+    ],
+    "subtitle": "subtitles.charmony.interact"
+  },
+  "photo": {
+    "sounds": [
+      {
+        "name": "charmony:photo",
+        "volume": 1.0
+      }
+    ],
+    "subtitle": "subtitles.charmony.photo"
+  }
+}

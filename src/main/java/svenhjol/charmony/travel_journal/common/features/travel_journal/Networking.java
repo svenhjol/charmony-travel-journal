@@ -7,9 +7,9 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import svenhjol.charmony.core.Charmony;
 import svenhjol.charmony.core.base.Setup;
-import svenhjol.charmony.travel_journal.TravelJournalMod;
-import svenhjol.charmony.travel_journal.helpers.StreamHelper;
+import svenhjol.charmony.core.helpers.StreamHelper;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -26,7 +26,7 @@ public class Networking extends Setup<TravelJournal> {
     }
 
     public record S2CSendBookmarkToPlayer(Bookmark bookmark, BufferedImage photo, String sender) implements CustomPacketPayload {
-        public static final Type<S2CSendBookmarkToPlayer> TYPE = new Type<>(TravelJournalMod.id("server_send_bookmark_to_player"));
+        public static final Type<S2CSendBookmarkToPlayer> TYPE = new Type<>(Charmony.id("server_send_bookmark_to_player"));
         public static final StreamCodec<FriendlyByteBuf, S2CSendBookmarkToPlayer> CODEC =
             StreamCodec.of(S2CSendBookmarkToPlayer::encode, S2CSendBookmarkToPlayer::decode);
 
@@ -58,7 +58,7 @@ public class Networking extends Setup<TravelJournal> {
     }
 
     public record C2SSendBookmarkToPlayer(Bookmark bookmark, BufferedImage photo, UUID recipient) implements CustomPacketPayload {
-        public static final Type<C2SSendBookmarkToPlayer> TYPE = new Type<>(TravelJournalMod.id("client_send_bookmark_to_player"));
+        public static final Type<C2SSendBookmarkToPlayer> TYPE = new Type<>(Charmony.id("client_send_bookmark_to_player"));
         public static final StreamCodec<FriendlyByteBuf, C2SSendBookmarkToPlayer> CODEC =
             StreamCodec.of(C2SSendBookmarkToPlayer::encode, C2SSendBookmarkToPlayer::decode);
 
@@ -89,7 +89,7 @@ public class Networking extends Setup<TravelJournal> {
     }
 
     public record C2SPlayerSettings(boolean allowReceiving, List<String> allowFrom) implements CustomPacketPayload {
-        public static final Type<C2SPlayerSettings> TYPE = new Type<>(TravelJournalMod.id("client_player_settings"));
+        public static final Type<C2SPlayerSettings> TYPE = new Type<>(Charmony.id("client_player_settings"));
         public static final StreamCodec<FriendlyByteBuf, C2SPlayerSettings> CODEC =
             StreamCodec.of(C2SPlayerSettings::encode, C2SPlayerSettings::decode);
 

@@ -1,21 +1,23 @@
 package svenhjol.charmony.travel_journal.client.features.travel_journal.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.MultiLineEditBox;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import svenhjol.charmony.api.core.Color;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.CoreButtons;
+import svenhjol.charmony.core.helpers.TextComponentHelper;
 import svenhjol.charmony.travel_journal.client.features.travel_journal.Buttons;
 import svenhjol.charmony.travel_journal.client.features.travel_journal.Resources;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmark;
-import svenhjol.charmony.travel_journal.helpers.TextHelper;
 
+@SuppressWarnings("unused")
 public class BookmarkScreen extends BaseScreen {
     private final Bookmark.Mutable bookmark;
     private EditBox name;
@@ -49,12 +51,13 @@ public class BookmarkScreen extends BaseScreen {
         setFocused(name);
         
         description = new MultiLineEditBox(font, midX - (inputWidth / 2), top + 28, inputWidth, descriptionHeight,
-            Resources.EDIT_DESCRIPTION, Component.empty());
+            Resources.EDIT_DESCRIPTION, CommonComponents.EMPTY, new Color(0xffffff).getArgbColor(), false, 0xffff00, true, true);
 
         description.setFocused(false);
         description.setValue(bookmark.description);
         description.setValueListener(val -> bookmark.description = val);
         description.setCharacterLimit(157);
+        description.visible = true;
         addRenderableWidget(description);
 
         // Add the send to player button
@@ -90,53 +93,53 @@ public class BookmarkScreen extends BaseScreen {
         description.render(guiGraphics, mouseX, mouseY, delta);
 
         // Name and description label
-        var textColor = 0x404040;
-        guiGraphics.drawString(font, Resources.NAME_TEXT, midX - 109, 98, textColor, false);
-        guiGraphics.drawString(font, Resources.DESCRIPTION, midX - 109, 126, textColor, false);
+        var textColor = new Color(0x404040);
+        guiGraphics.drawString(font, Resources.NAME_TEXT, midX - 109, 98, textColor.getArgbColor(), false);
+        guiGraphics.drawString(font, Resources.DESCRIPTION, midX - 109, 126, textColor.getArgbColor(), false);
     }
 
     private void renderPhoto(GuiGraphics guiGraphics) {
         var pose = guiGraphics.pose();
         var resource = journal.handlers.tryLoadPhoto(bookmark.toImmutable());
 
-        pose.pushPose();
+        pose.pushMatrix();
         var top = 24; // This is scaled by pose.scale()
         var left = -169; // This is scaled by pose.scale()
-        pose.translate(midX - 40f, 33f, 1.0f);
-        pose.scale(0.41f, 0.22f, 1.0f);
-        guiGraphics.blit(RenderType::guiTextured, resource, left, top, 0.0f, 0.0f, 256, 256, 256, 256);
-        pose.popPose();
+        pose.translate(midX - 40f, 33f);
+        pose.scale(0.41f, 0.22f);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, resource, left, top, 0.0f, 0.0f, 256, 256, 256, 256);
+        pose.popMatrix();
     }
     
     private void renderDetails(GuiGraphics guiGraphics) {
         var pose = guiGraphics.pose();
         var color = getDetailsColor(bookmark.toImmutable());
         
-        pose.pushPose();
+        pose.pushMatrix();
         var top = 23; // This is scaled by pose.scale()
         var left = 43; // This is scaled by pose.scale()
-        pose.translate(midX - 25f, 20f, 1.0f);
-        pose.scale(0.82f, 0.82f, 1.0f);
+        pose.translate(midX - 25f, 20f);
+        pose.scale(0.82f, 0.82f);
 
         // Author
         if (bookmark.author != null && !bookmark.author.isEmpty()) {
             var authorText = Component.translatable(Resources.AUTHOR, bookmark.author);
-            guiGraphics.drawString(font, authorText, left, top, color, false);
+            guiGraphics.drawString(font, authorText, left, top, color.getArgbColor(), false);
         } else {
             top = 12;
         }
 
         // Dimension
-        var dimensionText = TextHelper.dimensionAsText(bookmark.dimension);
-        guiGraphics.drawString(font, Component.translatable(Resources.DIMENSION).withStyle(ChatFormatting.BOLD), left, top + 20, color, false);
-        guiGraphics.drawString(font, dimensionText, left, top + 31, color, false);
+        var dimensionText = TextComponentHelper.dimensionAsText(bookmark.dimension);
+        guiGraphics.drawString(font, Component.translatable(Resources.DIMENSION).withStyle(ChatFormatting.BOLD), left, top + 20, color.getArgbColor(), false);
+        guiGraphics.drawString(font, dimensionText, left, top + 31, color.getArgbColor(), false);
 
         // Block position
-        var positionText = TextHelper.positionAsText(bookmark.pos);
-        guiGraphics.drawString(font, Component.translatable(Resources.POSITION).withStyle(ChatFormatting.BOLD), left, top + 49, color, false);
-        guiGraphics.drawString(font, positionText, left, top + 60, color, false);
+        var positionText = TextComponentHelper.positionAsText(bookmark.pos);
+        guiGraphics.drawString(font, Component.translatable(Resources.POSITION).withStyle(ChatFormatting.BOLD), left, top + 49, color.getArgbColor(), false);
+        guiGraphics.drawString(font, positionText, left, top + 60, color.getArgbColor(), false);
 
-        pose.popPose();
+        pose.popMatrix();
     }
 
     private void renderUtilityButtons(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {

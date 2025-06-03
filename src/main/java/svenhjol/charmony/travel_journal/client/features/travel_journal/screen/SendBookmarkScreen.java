@@ -17,7 +17,7 @@ public class SendBookmarkScreen extends BaseScreen {
     private final List<Button> playerButtons = new ArrayList<>();
 
     public SendBookmarkScreen(Bookmark bookmark) {
-        super(Component.translatable("gui.charmony-travel-journal.sendToPlayer"));
+        super(Component.translatable("gui.charmony.sendToPlayer"));
         this.bookmark = bookmark;
     }
 
@@ -78,7 +78,7 @@ public class SendBookmarkScreen extends BaseScreen {
             }
 
             if (playerButtons.isEmpty()) {
-                guiGraphics.drawCenteredString(minecraft.font, Component.translatable("gui.charmony-travel-journal.waitingForPlayers"), midX, 100, 0x909090);
+                guiGraphics.drawCenteredString(minecraft.font, Component.translatable("gui.charmony.waitingForPlayers"), midX, 100, 0x909090);
             }
         }
 
@@ -94,7 +94,7 @@ public class SendBookmarkScreen extends BaseScreen {
     private void sendToPlayer(Player player) {
         journal.handlers.trySendBookmark(bookmark, player);
         var playerName = player.getScoreboardName();
-        var message = Component.translatable("gui.charmony-travel-journal.sentToPlayer", bookmark.name(), playerName);
+        var message = Component.translatable("gui.charmony.sentToPlayer", bookmark.name(), playerName);
         player.displayClientMessage(message, false);
         onClose();
     }
