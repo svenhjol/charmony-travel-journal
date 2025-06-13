@@ -7,8 +7,10 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.MultiLineEditBox;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import svenhjol.charmony.api.core.Color;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.CoreButtons;
@@ -130,7 +132,7 @@ public class BookmarkScreen extends BaseScreen {
         }
 
         // Dimension
-        var dimensionText = TextComponentHelper.dimensionAsText(bookmark.dimension);
+        var dimensionText = TextComponentHelper.dimensionAsText(ResourceKey.create(Registries.DIMENSION, bookmark.dimension));
         guiGraphics.drawString(font, Component.translatable(Resources.DIMENSION).withStyle(ChatFormatting.BOLD), left, top + 20, color.getArgbColor(), false);
         guiGraphics.drawString(font, dimensionText, left, top + 31, color.getArgbColor(), false);
 

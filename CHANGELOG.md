@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.1
+
+- Switch to using resourcelocations for dimension reference.
+
 ## 1.10.0
 
 - Update for 1.21.6.

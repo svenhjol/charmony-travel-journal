@@ -2,16 +2,15 @@ package svenhjol.charmony.travel_journal.common.features.travel_journal;
 
 import com.google.gson.GsonBuilder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.Level;
 import svenhjol.charmony.core.helpers.WorldHelper;
 
 import java.util.UUID;
 
 public record Bookmark(
-    UUID id, String name, ResourceKey<Level> dimension, BlockPos pos,
+    UUID id, String name, ResourceLocation dimension, BlockPos pos,
     String author, String description, long timestamp, DyeColor color) {
     public static final DyeColor DEFAULT_COLOR = DyeColor.WHITE;
 
@@ -19,7 +18,7 @@ public record Bookmark(
         return new Bookmark(
             UUID.randomUUID(),
             WorldHelper.biomeName(player),
-            player.level().dimension(),
+            player.level().dimension().location(),
             player.blockPosition(),
             player.getScoreboardName(),
             "",
@@ -34,7 +33,7 @@ public record Bookmark(
 
     public static class Mutable {
         public final UUID id;
-        public final ResourceKey<Level> dimension;
+        public final ResourceLocation dimension;
         public final BlockPos pos;
         public final long timestamp;
         public String name;
