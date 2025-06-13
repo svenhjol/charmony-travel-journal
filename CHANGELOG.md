@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.2
+
+- Rough rewrite of datatypes because thanks data serializer.
+
 ## 1.10.1
 
 - Switch to using resourcelocations for dimension reference.

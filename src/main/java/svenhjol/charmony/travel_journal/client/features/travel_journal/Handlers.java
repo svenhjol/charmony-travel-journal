@@ -385,11 +385,11 @@ public class Handlers extends Setup<TravelJournal> {
         var distance = feature().closestBookmarkDistance();
 
         return bookmarks.all().stream()
-            .filter(bookmark -> bookmark.pos().distManhattan(pos) < distance)
-            .filter(bookmark -> bookmark.dimension().equals(dimension))
+            .filter(bookmark -> BlockPos.of(bookmark.pos()).distManhattan(pos) < distance)
+            .filter(bookmark -> bookmark.dimension().equals(dimension.location().toString()))
             .min((a, b) -> {
-                var ap = a.pos().distManhattan(pos);
-                var bp = b.pos().distManhattan(pos);
+                var ap = BlockPos.of(a.pos()).distManhattan(pos);
+                var bp = BlockPos.of(b.pos()).distManhattan(pos);
                 return Integer.compare(ap, bp);
             });
     }

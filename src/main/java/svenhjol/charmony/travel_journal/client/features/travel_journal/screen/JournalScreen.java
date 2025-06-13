@@ -2,9 +2,11 @@ package svenhjol.charmony.travel_journal.client.features.travel_journal.screen;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.api.core.Color;
 import svenhjol.charmony.core.client.CoreButtons;
 import svenhjol.charmony.core.helpers.TextComponentHelper;
@@ -155,7 +157,7 @@ public class JournalScreen extends BaseScreen {
         pose.translate(midX - 25f, 20f);
         pose.scale(0.82f, 0.82f);
         
-        var positionText = TextComponentHelper.positionAsText(bookmark.pos());
+        var positionText = TextComponentHelper.positionAsText(BlockPos.of(bookmark.pos()));
 
         TextComponentHelper.drawCenteredString(guiGraphics, font, positionText, left + 50, top + 12, color.getArgbColor(), false);
         pose.popMatrix();
@@ -171,7 +173,7 @@ public class JournalScreen extends BaseScreen {
         pose.translate(midX - 25f, 20f);
         pose.scale(1.0f, 1.0f);
 
-        var dimensionText = TextComponentHelper.dimensionAsText(ResourceKey.create(Registries.DIMENSION, bookmark.dimension()));
+        var dimensionText = TextComponentHelper.dimensionAsText(ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(bookmark.dimension())));
         TextComponentHelper.drawCenteredString(guiGraphics, font, dimensionText, left + 50, top, color.getArgbColor(), false);
         pose.popMatrix();
     }

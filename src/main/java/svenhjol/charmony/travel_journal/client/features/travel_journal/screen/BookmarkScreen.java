@@ -7,10 +7,12 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.MultiLineEditBox;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import svenhjol.charmony.api.core.Color;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.CoreButtons;
@@ -25,6 +27,8 @@ public class BookmarkScreen extends BaseScreen {
     private EditBox name;
     private MultiLineEditBox description;
     private Button sendToPlayerButton;
+    private ResourceLocation dimension;
+    private BlockPos pos;
     
     public BookmarkScreen(Bookmark bookmark) {
         super(Component.literal(bookmark.name()));
@@ -76,6 +80,9 @@ public class BookmarkScreen extends BaseScreen {
             b -> onClose()));
         addRenderableWidget(new CoreButtons.SaveButton(midX + (CoreButtons.SaveButton.WIDTH / 2) + 5, 216,
             b -> saveAndClose()));
+
+        pos = BlockPos.of(bookmark.pos);
+        dimension = ResourceLocation.parse(bookmark.dimension);
     }
 
     @Override
@@ -132,12 +139,12 @@ public class BookmarkScreen extends BaseScreen {
         }
 
         // Dimension
-        var dimensionText = TextComponentHelper.dimensionAsText(ResourceKey.create(Registries.DIMENSION, bookmark.dimension));
+        var dimensionText = TextComponentHelper.dimensionAsText(ResourceKey.create(Registries.DIMENSION, dimension));
         guiGraphics.drawString(font, Component.translatable(Resources.DIMENSION).withStyle(ChatFormatting.BOLD), left, top + 20, color.getArgbColor(), false);
         guiGraphics.drawString(font, dimensionText, left, top + 31, color.getArgbColor(), false);
 
         // Block position
-        var positionText = TextComponentHelper.positionAsText(bookmark.pos);
+        var positionText = TextComponentHelper.positionAsText(pos);
         guiGraphics.drawString(font, Component.translatable(Resources.POSITION).withStyle(ChatFormatting.BOLD), left, top + 49, color.getArgbColor(), false);
         guiGraphics.drawString(font, positionText, left, top + 60, color.getArgbColor(), false);
 
