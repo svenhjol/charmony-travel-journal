@@ -80,6 +80,7 @@ public class Bookmarks {
 
             this.bookmarks.clear();
             this.bookmarks.addAll(bookmarks);
+            this.bookmarks.sort(Comparator.comparing(Bookmark::name));
             LOGGER.info("Loaded " + this.bookmarks.size() + " bookmark(s)");
 
         } catch (Exception e) {
@@ -91,6 +92,7 @@ public class Bookmarks {
 
     public Bookmarks save() {
         try {
+            bookmarks.sort(Comparator.comparing(Bookmark::name));
             var out = new GsonBuilder().setPrettyPrinting().create().toJson(bookmarks);
             var writer = new FileWriter(session);
             writer.write(out);

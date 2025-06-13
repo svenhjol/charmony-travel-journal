@@ -24,14 +24,17 @@ import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmark;
 @SuppressWarnings("unused")
 public class BookmarkScreen extends BaseScreen {
     private final Bookmark.Mutable bookmark;
+    private final ResourceLocation dimension;
+    private final BlockPos pos;
     private EditBox name;
     private MultiLineEditBox description;
     private Button sendToPlayerButton;
-    private ResourceLocation dimension;
-    private BlockPos pos;
+    private Button takeNewPhotoButton;
     
     public BookmarkScreen(Bookmark bookmark) {
         super(Component.literal(bookmark.name()));
+        this.pos = bookmark.blockPos();
+        this.dimension = bookmark.dimensionId();
         this.bookmark = new Bookmark.Mutable(bookmark);
     }
 
@@ -66,12 +69,19 @@ public class BookmarkScreen extends BaseScreen {
         description.visible = true;
         addRenderableWidget(description);
 
-        // Add the send to player button
-        sendToPlayerButton = new Buttons.SendToPlayerButton(midX - 110, top + 29 + descriptionHeight + 2,
+        // Add the take new photo button
+        sendToPlayerButton = new Buttons.SendToPlayerButton(midX - 84, top + 29 + descriptionHeight + 2,
             b -> sendToNearbyPlayer());
         sendToPlayerButton.active = false;
         sendToPlayerButton.visible = Environment.usesCharmonyServer();
         addRenderableWidget(sendToPlayerButton);
+
+        // Add the send to player button
+        takeNewPhotoButton = new Buttons.TakeNewPhotoButton(midX - 110, top + 29 + descriptionHeight + 2,
+            b -> takeNewPhoto());
+        takeNewPhotoButton.active = false;
+        takeNewPhotoButton.visible = true;
+        addRenderableWidget(takeNewPhotoButton);
 
         // Buttons at bottom
         addRenderableWidget(new CoreButtons.DeleteButton((int) (midX - (CoreButtons.DeleteButton.WIDTH * 1.5)) - 5, 216,
@@ -80,9 +90,6 @@ public class BookmarkScreen extends BaseScreen {
             b -> onClose()));
         addRenderableWidget(new CoreButtons.SaveButton(midX + (CoreButtons.SaveButton.WIDTH / 2) + 5, 216,
             b -> saveAndClose()));
-
-        pos = BlockPos.of(bookmark.pos);
-        dimension = ResourceLocation.parse(bookmark.dimension);
     }
 
     @Override
@@ -154,8 +161,10 @@ public class BookmarkScreen extends BaseScreen {
     private void renderUtilityButtons(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         var minecraft = Minecraft.getInstance();
         if (minecraft.level == null) return;
+
         if (minecraft.level.getGameTime() % 20 == 0) {
             sendToPlayerButton.active = journal.handlers.canSendBookmark();
+            takeNewPhotoButton.active = journal.handlers.canTakeNewPhoto(bookmark.toImmutable());
         }
     }
     
@@ -176,6 +185,10 @@ public class BookmarkScreen extends BaseScreen {
 
     private void sendToNearbyPlayer() {
         journal.handlers.openSendBookmark(bookmark.toImmutable());
+    }
+
+    private void takeNewPhoto() {
+        journal.handlers.takePhoto(bookmark.toImmutable(), false);
     }
 
     @Override

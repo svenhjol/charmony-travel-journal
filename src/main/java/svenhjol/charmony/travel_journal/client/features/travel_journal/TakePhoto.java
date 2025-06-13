@@ -14,17 +14,19 @@ import java.io.IOException;
 public class TakePhoto {
     private final Bookmark bookmark;
     private final TravelJournal journal;
+    private final boolean immediate;
     private int ticks;
     private boolean valid;
     private boolean finished;
     private boolean isTakingPhoto;
 
-    public TakePhoto(Bookmark bookmark) {
+    public TakePhoto(Bookmark bookmark, boolean immediate) {
         this.bookmark = bookmark;
         this.journal = TravelJournal.feature();
         this.valid = true;
         this.finished = false;
         this.isTakingPhoto = false;
+        this.immediate = immediate;
     }
 
     public Bookmark bookmark() {
@@ -34,13 +36,20 @@ public class TakePhoto {
     public void tick() {
         ticks++;
 
-        if (ticks < 60) {
-            return;
-        }
+        if (immediate) {
+            if (ticks < 5) {
+                hideGui();
+                return;
+            }
+        } else {
+            if (ticks < 60) {
+                return;
+            }
 
-        if (ticks < 62) {
-            hideGui();
-            return;
+            if (ticks < 62) {
+                hideGui();
+                return;
+            }
         }
 
         if (ticks > 100) {
@@ -82,6 +91,10 @@ public class TakePhoto {
     }
 
     public void renderCountdown(GuiGraphics guiGraphics) {
+        if (immediate) {
+            return;
+        }
+
         var minecraft = Minecraft.getInstance();
         int x = (guiGraphics.guiWidth() / 8) + 1;
         int y = 20;

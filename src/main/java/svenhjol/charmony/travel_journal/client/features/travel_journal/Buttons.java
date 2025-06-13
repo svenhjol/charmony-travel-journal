@@ -11,6 +11,7 @@ public class Buttons {
     public static final WidgetSprites NEXT_PAGE_BUTTON = makeButton("next_page");
     public static final WidgetSprites PREVIOUS_PAGE_BUTTON = makeButton("previous_page");
     public static final WidgetSprites SEND_TO_PLAYER_BUTTON = makeButtonWithDisabled("send_to_player");
+    public static final WidgetSprites TAKE_NEW_PHOTO_BUTTON = makeButtonWithDisabled("take_new_photo");
 
     public static class NewWhenEmptyButton extends Button {
         public static int WIDTH = 100;
@@ -39,6 +40,18 @@ public class Buttons {
         static Component TEXT = Resources.SEND_TO_PLAYER;
 
         public SendToPlayerButton(int x, int y, OnPress onPress) {
+            super(x, y, WIDTH, HEIGHT, SPRITES, onPress);
+            setTooltip(Tooltip.create(TEXT));
+        }
+    }
+
+    public static class TakeNewPhotoButton extends ImageButton {
+        public static int WIDTH = 20;
+        public static int HEIGHT = 18;
+        static WidgetSprites SPRITES = TAKE_NEW_PHOTO_BUTTON;
+        static Component TEXT = Resources.TAKE_NEW_PHOTO;
+
+        public TakeNewPhotoButton(int x, int y, OnPress onPress) {
             super(x, y, WIDTH, HEIGHT, SPRITES, onPress);
             setTooltip(Tooltip.create(TEXT));
         }

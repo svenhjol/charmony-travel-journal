@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import svenhjol.charmony.core.base.Environment;
 import svenhjol.charmony.core.client.CoreButtons;
+import svenhjol.charmony.travel_journal.client.features.travel_journal.Resources;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Bookmark;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class SendBookmarkScreen extends BaseScreen {
     private final List<Button> playerButtons = new ArrayList<>();
 
     public SendBookmarkScreen(Bookmark bookmark) {
-        super(Component.translatable("gui.charmony.sendToPlayer"));
+        super(Resources.SEND_TO_PLAYER);
         this.bookmark = bookmark;
     }
 
@@ -78,7 +79,7 @@ public class SendBookmarkScreen extends BaseScreen {
             }
 
             if (playerButtons.isEmpty()) {
-                guiGraphics.drawCenteredString(minecraft.font, Component.translatable("gui.charmony.waitingForPlayers"), midX, 100, 0x909090);
+                guiGraphics.drawCenteredString(minecraft.font, Resources.WAITING_FOR_PLAYERS, midX, 100, 0x909090);
             }
         }
 
@@ -94,7 +95,7 @@ public class SendBookmarkScreen extends BaseScreen {
     private void sendToPlayer(Player player) {
         journal.handlers.trySendBookmark(bookmark, player);
         var playerName = player.getScoreboardName();
-        var message = Component.translatable("gui.charmony.sentToPlayer", bookmark.name(), playerName);
+        var message = Component.translatable("gui.charmony.sent_to_player", bookmark.name(), playerName);
         player.displayClientMessage(message, false);
         onClose();
     }

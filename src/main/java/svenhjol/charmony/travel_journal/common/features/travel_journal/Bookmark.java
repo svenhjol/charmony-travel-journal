@@ -1,6 +1,8 @@
 package svenhjol.charmony.travel_journal.common.features.travel_journal;
 
 import com.google.gson.GsonBuilder;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import svenhjol.charmony.core.helpers.WorldHelper;
@@ -23,6 +25,14 @@ public record Bookmark(
             System.currentTimeMillis() / 1000L,
             DEFAULT_COLOR
         );
+    }
+
+    public ResourceLocation dimensionId() {
+        return ResourceLocation.parse(dimension);
+    }
+
+    public BlockPos blockPos() {
+        return BlockPos.of(pos);
     }
 
     public String toJsonString() {

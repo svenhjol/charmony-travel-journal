@@ -30,7 +30,7 @@ public final class TravelJournal extends SidedFeature {
         name = "Range of closest bookmark",
         description = """
             Distance (in blocks) at which the name of the closest bookmark will be shown on the hud.
-            This has no effect if "Show closest bookmark" is set to false.""",
+            This also affects the distance from which you may take another photo of the same bookmark.""",
         requireRestart = false
     )
     private static int closestBookmarkDistance = 32;

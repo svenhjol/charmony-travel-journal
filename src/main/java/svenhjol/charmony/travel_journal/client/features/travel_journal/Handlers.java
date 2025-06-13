@@ -157,7 +157,7 @@ public class Handlers extends Setup<TravelJournal> {
     /**
      * Handle incoming bookmark from the server.
      */
-    public void handleSendBookmarkToPlayerPacket2(Player player, S2CSendBookmarkToPlayer payload) {
+    public void handleSendBookmarkToPlayerPacket(Player player, S2CSendBookmarkToPlayer payload) {
         Component message;
         var bookmark = payload.bookmark();
         var sender = payload.sender();
@@ -169,19 +169,24 @@ public class Handlers extends Setup<TravelJournal> {
                 bookmarks.remove(bookmark.id());
             }
 
-            message = Component.translatable("gui.charmony.receiveFromPlayer", sender, bookmark.name());
+            message = Component.translatable("gui.charmony.receive_from_player", sender, bookmark.name());
             bookmarks.add(bookmark);
             savePhoto(bookmark, payload.photo());
         } else {
-            message = Component.translatable("gui.charmony.alreadyHaveTheBookmark", sender, bookmark.name());
+            message = Component.translatable("gui.charmony.already_have_the_bookmark", sender, bookmark.name());
         }
 
         player.displayClientMessage(message, false);
     }
 
     public void takePhoto(Bookmark bookmark) {
-        takePhoto = new TakePhoto(bookmark);
+        takePhoto(bookmark, false);
+    }
+
+    public void takePhoto(Bookmark bookmark, boolean immediate) {
+        takePhoto = new TakePhoto(bookmark, immediate);
         Minecraft.getInstance().setScreen(null);
+        uncachePhoto(bookmark);
     }
 
     public void makeBookmark() {
@@ -200,6 +205,14 @@ public class Handlers extends Setup<TravelJournal> {
         return Environment.usesCharmonyServer()
             && level.getGameTime() > lastSentBookmarkTime + 40
             && !nearbyPlayers().isEmpty();
+    }
+
+    public boolean canTakeNewPhoto(Bookmark bookmark) {
+        var minecraft = Minecraft.getInstance();
+        var player = minecraft.player;
+        if (player == null) return false;
+
+        return player.blockPosition().distManhattan(bookmark.blockPos()) < feature().closestBookmarkDistance();
     }
 
     public boolean belongsToPlayer(Bookmark bookmark) {
@@ -336,6 +349,10 @@ public class Handlers extends Setup<TravelJournal> {
         return fallback;
     }
 
+    public void uncachePhoto(Bookmark bookmark) {
+        cachedPhotos.remove(bookmark.id());
+    }
+
     public boolean savePhoto(Bookmark bookmark, BufferedImage photo) {
         boolean success;
         var path = new File(photosDir(), bookmark.id() + ".png");
@@ -385,11 +402,11 @@ public class Handlers extends Setup<TravelJournal> {
         var distance = feature().closestBookmarkDistance();
 
         return bookmarks.all().stream()
-            .filter(bookmark -> BlockPos.of(bookmark.pos()).distManhattan(pos) < distance)
+            .filter(bookmark -> bookmark.blockPos().distManhattan(pos) < distance)
             .filter(bookmark -> bookmark.dimension().equals(dimension.location().toString()))
             .min((a, b) -> {
-                var ap = BlockPos.of(a.pos()).distManhattan(pos);
-                var bp = BlockPos.of(b.pos()).distManhattan(pos);
+                var ap = a.blockPos().distManhattan(pos);
+                var bp = b.blockPos().distManhattan(pos);
                 return Integer.compare(ap, bp);
             });
     }

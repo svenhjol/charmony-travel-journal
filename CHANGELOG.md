@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.4
+
+- Add button to take a new photo when in range of the bookmark.
+- Sort bookmarks alphabetically by name.
+
 ## 1.10.3
 
 - Use the scaled image when saving photos.

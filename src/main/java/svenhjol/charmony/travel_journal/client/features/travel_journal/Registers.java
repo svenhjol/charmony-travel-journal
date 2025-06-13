@@ -26,14 +26,14 @@ public class Registers extends Setup<TravelJournal> {
             var registry = ClientRegistry.forFeature(feature());
 
             registry.packetReceiver(S2CSendBookmarkToPlayer.TYPE,
-                feature().handlers::handleSendBookmarkToPlayerPacket2);
+                feature().handlers::handleSendBookmarkToPlayerPacket);
 
             openJournalKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-                "key.charmony.openJournal",
+                "key.charmony.open_journal",
                 GLFW.GLFW_KEY_J,
                 "key.categories.misc"));
             makeBookmarkKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
-                "key.charmony.makeBookmark",
+                "key.charmony.make_bookmark",
                 GLFW.GLFW_KEY_B,
                 "key.categories.misc"));
 
