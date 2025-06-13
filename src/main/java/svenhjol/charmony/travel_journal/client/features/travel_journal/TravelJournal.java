@@ -46,7 +46,7 @@ public final class TravelJournal extends SidedFeature {
             The scaled width should be double the scaled height.""",
         requireRestart = false
     )
-    private static int scaledPhotoWidth = 192;
+    private static int scaledPhotoWidth = 256;
 
     @Configurable(
         name = "Scaled photo height",
@@ -59,7 +59,7 @@ public final class TravelJournal extends SidedFeature {
             The scaled height should be half the scaled width.""",
         requireRestart = false
     )
-    private static int scaledPhotoHeight = 96;
+    private static int scaledPhotoHeight = 128;
 
     @Configurable(
         name = "Allow receiving bookmarks",

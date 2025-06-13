@@ -138,7 +138,7 @@ public class TakePhoto {
         graphics2D.dispose();
 
         // Save the photo
-        var success = journal.handlers.savePhoto(bookmark, image);
+        var success = journal.handlers.savePhoto(bookmark, scaledImage);
         if (!success) {
             journal.log().error("Writing image failed for bookmark " + id);
             return;

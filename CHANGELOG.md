@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.3
+
+- Use the scaled image when saving photos.
+
 ## 1.10.2
 
 - Rough rewrite of datatypes because thanks data serializer.
