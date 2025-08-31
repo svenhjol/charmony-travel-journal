@@ -34,7 +34,7 @@ public class Registers extends Setup<TravelJournal> {
                 "key.categories.misc"));
             makeBookmarkKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.charmony.make_bookmark",
-                GLFW.GLFW_KEY_B,
+                GLFW.GLFW_KEY_BACKSLASH,
                 "key.categories.misc"));
 
             ClientLoginPlayerCallback.EVENT.register(feature().handlers::clientLogin);
