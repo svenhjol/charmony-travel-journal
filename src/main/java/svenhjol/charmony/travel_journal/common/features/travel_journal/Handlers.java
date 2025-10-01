@@ -1,5 +1,6 @@
 package svenhjol.charmony.travel_journal.common.features.travel_journal;
 
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import svenhjol.charmony.core.base.Setup;
 import svenhjol.charmony.travel_journal.common.features.travel_journal.Networking.C2SPlayerSettings;
@@ -20,8 +21,10 @@ public class Handlers extends Setup<TravelJournal> {
     }
 
     public void handleSendBookmarkToPlayerPacket(Player player, C2SSendBookmarkToPlayer payload) {
-        var server = player.getServer();
-        if (server == null) return;
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            return;
+        }
+        var server = serverPlayer.level().getServer();
 
         var bookmark = payload.bookmark();
         var photo = payload.photo();

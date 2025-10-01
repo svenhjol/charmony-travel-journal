@@ -31,11 +31,11 @@ public class Registers extends Setup<TravelJournal> {
             openJournalKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.charmony.open_journal",
                 GLFW.GLFW_KEY_J,
-                "key.categories.misc"));
+                KeyMapping.Category.MISC));
             makeBookmarkKey = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.charmony.make_bookmark",
                 GLFW.GLFW_KEY_BACKSLASH,
-                "key.categories.misc"));
+                KeyMapping.Category.MISC));
 
             ClientLoginPlayerCallback.EVENT.register(feature().handlers::clientLogin);
             HudDisplayCallback.EVENT.register(feature().handlers::hudRender);
